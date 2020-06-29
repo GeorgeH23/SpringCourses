@@ -1,4 +1,4 @@
-package com.george.bpetclinicapplication.model;
+package com.george.petclinicapplication.model;
 
 public class Person {
 
