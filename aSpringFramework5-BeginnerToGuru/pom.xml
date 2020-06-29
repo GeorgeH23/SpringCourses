@@ -9,7 +9,15 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <modules>
+        <module>a-building-a-spring-boot-web-app</module>
+        <module>b-pet-clinic-application</module>
+        <module>c-dependency-injection-with-spring</module>
+        <module>d-build-a-jokes-application</module>
+    </modules>
+
     <artifactId>aSpringFramework5-BeginnerToGuru</artifactId>
+    <packaging>pom</packaging>
 
 
 </project>

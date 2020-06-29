@@ -8,6 +8,7 @@
     <artifactId>SpringCourses</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+
     <modules>
         <module>aSpringFramework5-BeginnerToGuru</module>
     </modules>
