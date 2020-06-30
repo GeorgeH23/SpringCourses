@@ -8,6 +8,8 @@ public class CBuildAJokesApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(CBuildAJokesApplication.class, args);
+
+        // Custom Banner Link: http://patorjk.com/software/taag/#p=display&f=Big%20Money-ne&t=%20%20Spring%20%0A%20%20%20%20%20Jokes%0AApplication
     }
 
 }
