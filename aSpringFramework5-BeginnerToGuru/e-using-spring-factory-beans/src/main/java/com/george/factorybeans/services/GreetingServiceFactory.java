@@ -1,11 +1,8 @@
 package com.george.factorybeans.services;
 
-/**
- * Created by jt on 5/25/17.
- */
 public class GreetingServiceFactory {
 
-    private GreetingRepository greetingRepository;
+    private final GreetingRepository greetingRepository;
 
     public GreetingServiceFactory(GreetingRepository greetingRepository) {
         this.greetingRepository = greetingRepository;
@@ -14,8 +11,8 @@ public class GreetingServiceFactory {
     public GreetingService createGreetingService(String lang) {
 
         switch (lang){
-            case "en":
-                return new PrimaryGreetingService(greetingRepository);
+            /*case "en":
+                return new PrimaryGreetingService(greetingRepository);*/
             case "de":
                 return new PrimaryGermanGreetingService(greetingRepository);
             case "es":

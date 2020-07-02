@@ -1,11 +1,8 @@
 package com.george.factorybeans.services;
 
-/**
- * Created by jt on 5/24/17.
- */
 public class PrimaryGermanGreetingService implements GreetingService {
 
-    private GreetingRepository greetingRepository;
+    private final GreetingRepository greetingRepository;
 
     public PrimaryGermanGreetingService(GreetingRepository greetingRepository) {
         this.greetingRepository = greetingRepository;

@@ -3,13 +3,10 @@ package com.george.factorybeans.controllers;
 import com.george.factorybeans.services.GreetingService;
 import org.springframework.stereotype.Controller;
 
-/**
- * Created by jt on 5/23/17.
- */
 @Controller
 public class MyController {
 
-    private GreetingService greetingService;
+    private final GreetingService greetingService;
 
     public MyController(GreetingService greetingService) {
         this.greetingService = greetingService;
