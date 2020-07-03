@@ -14,7 +14,7 @@
         <module>b-pet-clinic-application</module>
         <module>c-dependency-injection-with-spring</module>
         <module>d-build-a-jokes-application</module>
-        <module>e-using-spring-factory-beans</module>
+        <module>e-spring-framework-configuration</module>
     </modules>
 
     <artifactId>aSpringFramework5-BeginnerToGuru</artifactId>

@@ -4,12 +4,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.george</groupId>
-	<artifactId>e-using-spring-factory-beans</artifactId>
+	<artifactId>e-spring-framework-configuration</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>e-using-spring-factory-beans</name>
-	<description>Using Spring Factory Beans</description>
+	<name>e-spring-framework-configuration</name>
+	<description>Spring Framework configuration. Using Spring Factory Beans</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
