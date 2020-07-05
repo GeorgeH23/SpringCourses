@@ -3,10 +3,11 @@ package com.george.petclinicapplication.services.map;
 import com.george.petclinicapplication.model.Owner;
 import com.george.petclinicapplication.model.Pet;
 import com.george.petclinicapplication.services.CrudService;
+import com.george.petclinicapplication.services.PetService;
 
 import java.util.Set;
 
-public class PetServiceMap extends AbstractMapService<Pet, Long> implements CrudService<Pet, Long> {
+public class PetServiceMap extends AbstractMapService<Pet, Long> implements PetService {
 
     @Override
     public Set<Pet> findAll() {
