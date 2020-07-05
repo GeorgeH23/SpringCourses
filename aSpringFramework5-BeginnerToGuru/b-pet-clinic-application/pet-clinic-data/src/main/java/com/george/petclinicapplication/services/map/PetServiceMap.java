@@ -1,12 +1,12 @@
 package com.george.petclinicapplication.services.map;
 
-import com.george.petclinicapplication.model.Owner;
 import com.george.petclinicapplication.model.Pet;
-import com.george.petclinicapplication.services.CrudService;
 import com.george.petclinicapplication.services.PetService;
+import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
+@Service
 public class PetServiceMap extends AbstractMapService<Pet, Long> implements PetService {
 
     @Override
