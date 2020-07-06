@@ -15,6 +15,7 @@
         <module>c-dependency-injection-with-spring</module>
         <module>d-build-a-jokes-application</module>
         <module>e-spring-framework-configuration</module>
+        <module>f-external-properties-with-spring-framework</module>
     </modules>
 
     <artifactId>aSpringFramework5-BeginnerToGuru</artifactId>
