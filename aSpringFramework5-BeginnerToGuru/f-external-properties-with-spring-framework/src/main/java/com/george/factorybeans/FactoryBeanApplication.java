@@ -2,6 +2,7 @@ package com.george.factorybeans;
 
 import com.george.factorybeans.controllers.MyController;
 import com.george.factorybeans.examplebeans.FakeDataSource;
+import com.george.factorybeans.examplebeans.FakeJmsBroker;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
@@ -15,8 +16,10 @@ public class FactoryBeanApplication {
 		MyController controller = (MyController) ctx.getBean("myController");
 
 		FakeDataSource fakeDataSource = (FakeDataSource) ctx.getBean(FakeDataSource.class);
-
 		System.out.println(fakeDataSource.getUsername());
+
+		FakeJmsBroker fakeJmsBroker = (FakeJmsBroker) ctx.getBean(FakeJmsBroker.class);
+		System.out.println(fakeJmsBroker.getUsername());
 
 	}
 }
