@@ -3,3 +3,11 @@ george:
     username: JMS Username
     password: somepass
     dburl: SomeURL
+
+#this means a file separator
+---
+spring:
+  profiles: de
+george:
+  jms:
+    username: JMS Username  $$$$ GERMAN
