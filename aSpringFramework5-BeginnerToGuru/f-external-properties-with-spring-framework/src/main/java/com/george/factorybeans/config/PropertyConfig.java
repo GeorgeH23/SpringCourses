@@ -13,14 +13,14 @@ import org.springframework.core.env.Environment;
 
 @Configuration
 //@PropertySource({"classpath:datasource.properties", "classpath:jms.properties"})
-@PropertySources({
+/*@PropertySources({
         @PropertySource("classpath:datasource.properties"),
         @PropertySource("classpath:jms.properties")
-})
+})*/
 public class PropertyConfig {
 
-    @Autowired
-    Environment env;
+    /*@Autowired
+    Environment env;*/
 
     @Value("${george.username}")
     String username;
@@ -43,8 +43,8 @@ public class PropertyConfig {
     @Bean
     public FakeDataSource fakeDataSource() {
         FakeDataSource fakeDataSource = new FakeDataSource();
-        //fakeDataSource.setUsername(username);
-        fakeDataSource.setUsername(env.getProperty("USERNAME"));
+        fakeDataSource.setUsername(username);
+        //fakeDataSource.setUsername(env.getProperty("USERNAME"));
         fakeDataSource.setPassword(password);
         fakeDataSource.setUrl(url);
 
@@ -62,9 +62,9 @@ public class PropertyConfig {
     }
 
     // the PropertySourcesPlaceholderConfigurer will read the properties file
-    @Bean
+    /*@Bean
     public static PropertySourcesPlaceholderConfigurer properties() {
         PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer = new PropertySourcesPlaceholderConfigurer();
         return propertySourcesPlaceholderConfigurer;
-    }
+    }*/
 }
