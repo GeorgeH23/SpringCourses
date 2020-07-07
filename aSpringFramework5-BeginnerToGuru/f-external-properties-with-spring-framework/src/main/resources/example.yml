@@ -1,0 +1,36 @@
+# this is a comment
+# YAML is used to describe data structures
+
+name: George
+
+names: #Comment
+  - George
+  - Paul
+  - Ringo
+
+pound_sign: "#"
+
+book:
+    author: Joe Buck
+    publisher: random house
+
+#Boolean examples
+truth: yes
+another_truth: True
+more_true: true
+false: no # No, false, FALSE
+
+string_val: "This is it's quote"
+colon_string: "my courses: one two three"
+
+include_new_lines: |
+  asdf asd asd
+  asdas sada asd
+  asd awd asd
+
+ignore_new_lines: >
+  this is
+  just one long
+  string
+
+
