@@ -1,0 +1,5 @@
+george:
+  jms:
+    username: JMS Username
+    password: somepass
+    dburl: SomeURL
