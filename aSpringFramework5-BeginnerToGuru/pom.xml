@@ -18,6 +18,7 @@
         <module>f-external-properties-with-spring-framework</module>
         <module>g-web-development-with-spring-mvc</module>
         <module>h-jpa-data-modeling-with-spring-and-hibernate</module>
+        <module>i-project-lombok</module>
     </modules>
 
     <artifactId>aSpringFramework5-BeginnerToGuru</artifactId>
