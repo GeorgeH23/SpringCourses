@@ -19,6 +19,7 @@
         <module>g-web-development-with-spring-mvc</module>
         <module>h-jpa-data-modeling-with-spring-and-hibernate</module>
         <module>i-project-lombok</module>
+        <module>j-testing-spring-framework-applications</module>
     </modules>
 
     <artifactId>aSpringFramework5-BeginnerToGuru</artifactId>
