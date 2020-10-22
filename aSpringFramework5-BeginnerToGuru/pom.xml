@@ -20,6 +20,7 @@
         <module>h-jpa-data-modeling-with-spring-and-hibernate</module>
         <module>i-project-lombok</module>
         <module>j-testing-spring-framework-applications</module>
+        <module>k-crud-operations-with-spring-mvc</module>
     </modules>
 
     <artifactId>aSpringFramework5-BeginnerToGuru</artifactId>
