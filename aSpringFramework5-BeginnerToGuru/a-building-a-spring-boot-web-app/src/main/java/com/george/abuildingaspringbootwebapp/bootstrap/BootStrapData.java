@@ -8,8 +8,11 @@ import com.george.abuildingaspringbootwebapp.domain.Publisher;
 import com.george.abuildingaspringbootwebapp.repositories.AuthorRepository;
 import com.george.abuildingaspringbootwebapp.repositories.BookRepository;
 import com.george.abuildingaspringbootwebapp.repositories.PublisherRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+
+@Slf4j
 @Component // Will tell Spring to detect this as a Spring Manage Component
 public class BootStrapData implements CommandLineRunner {
 
@@ -25,7 +28,7 @@ public class BootStrapData implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
 
         Address address = new Address("21 Book Shop", "Library Street", "Bucharest", "Ilfov", "012345");
         Publisher nemira = new Publisher("Nemira", address);
@@ -58,9 +61,9 @@ public class BootStrapData implements CommandLineRunner {
         bookRepository.save(noEJB);
         publisherRepository.save(coresi);
 
-        System.out.println("Started in Bootstrap");
-        System.out.println("Number of publishers: " + publisherRepository.count());
-        System.out.println("Number of Books: " + bookRepository.count());
+        log.debug("Started in Bootstrap");
+        log.debug("Number of publishers: " + publisherRepository.count());
+        log.debug("Number of Books: " + bookRepository.count());
 
     }
 }

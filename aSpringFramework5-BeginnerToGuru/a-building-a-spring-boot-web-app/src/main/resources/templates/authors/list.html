@@ -8,11 +8,12 @@
 <h1>Author List</h1>
 
 <table>
+    <caption>A list of authors</caption>
     <tr>
-        <th>ID</th>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Books</th>
+        <th scope="col">ID</th>
+        <th scope="col">First Name</th>
+        <th scope="col">Last Name</th>
+        <th scope="col">Books</th>
     </tr>
     <tr th:each="author : ${authors}">
         <td th:text="${author.id}">123</td>
