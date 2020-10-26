@@ -29,11 +29,12 @@
                 <div class="panel-body">
                     <div class="table-responsive" th:if="${not #lists.isEmpty(recipes)}">
                         <table class="table table-hover ">
+                            <caption>A list of recipes</caption>
                             <thead class="thead-inverse">
                             <tr>
-                                <th>ID</th>
-                                <th>Description</th>
-                                <th>View</th>
+                                <th scope="col">ID</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">View</th>
                             </tr>
                             </thead>
                             <tr th:remove="all">
@@ -47,7 +48,6 @@
                                 <td><a href="#">View</a></td>
                             </tr>
                             <tr th:each="recipe : ${recipes}">
-                                <!--/*@thymesVar id="recipe" type="com.george.recipeapp.domain.Recipe"*/-->
                                 <td th:text="${recipe.id}">334</td>
                                 <td th:text="${recipe.description}">Tasty Goodnees 3</td>
                                 <td><a href="#" th:href="@{'/recipe/show/' + ${recipe.id}}">View</a></td>

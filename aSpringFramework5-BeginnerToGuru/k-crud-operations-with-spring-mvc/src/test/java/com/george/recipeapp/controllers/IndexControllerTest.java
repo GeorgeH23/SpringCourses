@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-public class IndexControllerTest {
+class IndexControllerTest {
 
     @Mock
     RecipeService recipeService;
@@ -39,7 +39,7 @@ public class IndexControllerTest {
     }
 
     @Test
-    public void testMockMVC() throws Exception {
+    void testMockMVC() throws Exception {
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
 
         mockMvc.perform(get("/"))
@@ -48,7 +48,7 @@ public class IndexControllerTest {
     }
 
     @Test
-    public void getIndexPage() {
+    void getIndexPage() {
 
         //given
         Set<Recipe> recipes = new HashSet<>();

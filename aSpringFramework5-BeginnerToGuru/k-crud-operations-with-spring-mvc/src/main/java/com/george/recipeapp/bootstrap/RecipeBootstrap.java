@@ -1,6 +1,7 @@
 package com.george.recipeapp.bootstrap;
 
 import com.george.recipeapp.domain.*;
+import com.george.recipeapp.exceptions.UnitOfMeasureException;
 import com.george.recipeapp.repositories.CategoryRepository;
 import com.george.recipeapp.repositories.RecipeRepository;
 import com.george.recipeapp.repositories.UnitOfMeasureRepository;
@@ -19,6 +20,7 @@ import java.util.Optional;
 @Component
 public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEvent> {
 
+    private static final String EXPECTED_UOM_NOT_FOUND = "Expected UOM Not Found";
     private final CategoryRepository categoryRepository;
     private final RecipeRepository recipeRepository;
     private final UnitOfMeasureRepository unitOfMeasureRepository;
@@ -43,38 +45,38 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
         //get UOMs\
         Optional<UnitOfMeasure> eachUOMOptional = unitOfMeasureRepository.findByDescription("Each");
 
-        if (!eachUOMOptional.isPresent()) {
-            throw new RuntimeException("Expected UOM Not Found");
+        if (eachUOMOptional.isEmpty()) {
+            throw new UnitOfMeasureException(EXPECTED_UOM_NOT_FOUND);
         }
 
         Optional<UnitOfMeasure> tableSpoonUOMOptional = unitOfMeasureRepository.findByDescription("Tablespoon");
 
-        if (!tableSpoonUOMOptional.isPresent()) {
-            throw new RuntimeException("Expected UOM Not Found");
+        if (tableSpoonUOMOptional.isEmpty()) {
+            throw new UnitOfMeasureException(EXPECTED_UOM_NOT_FOUND);
         }
 
         Optional<UnitOfMeasure> teaSpoonUOMOptional = unitOfMeasureRepository.findByDescription("Teaspoon");
 
-        if (!teaSpoonUOMOptional.isPresent()) {
-            throw new RuntimeException("Expected UOM Not Found");
+        if (teaSpoonUOMOptional.isEmpty()) {
+            throw new UnitOfMeasureException(EXPECTED_UOM_NOT_FOUND);
         }
 
         Optional<UnitOfMeasure> dashUOMOptional = unitOfMeasureRepository.findByDescription("Dash");
 
-        if (!dashUOMOptional.isPresent()) {
-            throw new RuntimeException("Expected UOM Not Found");
+        if (dashUOMOptional.isEmpty()) {
+            throw new UnitOfMeasureException(EXPECTED_UOM_NOT_FOUND);
         }
 
         Optional<UnitOfMeasure> pintUOMOptional = unitOfMeasureRepository.findByDescription("Pint");
 
-        if (!pintUOMOptional.isPresent()) {
-            throw new RuntimeException("Expected UOM Not Found");
+        if (pintUOMOptional.isEmpty()) {
+            throw new UnitOfMeasureException(EXPECTED_UOM_NOT_FOUND);
         }
 
         Optional<UnitOfMeasure> cupUOMOptional = unitOfMeasureRepository.findByDescription("Cup");
 
-        if (!cupUOMOptional.isPresent()) {
-            throw new RuntimeException("Expected UOM Not Found");
+        if (cupUOMOptional.isEmpty()) {
+            throw new UnitOfMeasureException(EXPECTED_UOM_NOT_FOUND);
         }
 
         //get Optionals
@@ -88,14 +90,14 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
         //get Categories
         Optional<Category> americanCategoryOptional = categoryRepository.findByDescription("American");
 
-        if (!americanCategoryOptional.isPresent()) {
-            throw new RuntimeException("Expected Category Not Found");
+        if (americanCategoryOptional.isEmpty()) {
+            throw new UnitOfMeasureException("Expected Category Not Found");
         }
 
         Optional<Category> mexicanCategoryOptional = categoryRepository.findByDescription("Mexican");
 
-        if(!mexicanCategoryOptional.isPresent()){
-            throw new RuntimeException("Expected Category Not Found");
+        if(mexicanCategoryOptional.isEmpty()){
+            throw new UnitOfMeasureException("Expected Category Not Found");
         }
 
         Category americanCategory = americanCategoryOptional.get();

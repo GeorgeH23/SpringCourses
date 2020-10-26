@@ -1,6 +1,7 @@
 package com.george.recipeapp.services;
 
 import com.george.recipeapp.domain.Recipe;
+import com.george.recipeapp.exceptions.RecipeNotFoundException;
 import com.george.recipeapp.repositories.RecipeRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -30,8 +31,8 @@ public class RecipeServiceImpl implements RecipeService {
     public Recipe findById(Long id) {
         Optional<Recipe> recipeOptional =  recipeRepository.findById(id);
 
-        if (!recipeOptional.isPresent()) {
-            throw new RuntimeException("Recipe Not Found");
+        if (recipeOptional.isEmpty()) {
+            throw new RecipeNotFoundException("Recipe Not Found");
         }
 
         return recipeOptional.get();
