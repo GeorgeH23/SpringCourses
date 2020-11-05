@@ -37,20 +37,12 @@
                             <div class="row">
                                 <div class="col-md-3 form-group">
                                     <label>Categories:</label>
-                                </div>
-                                <div class="col-md-9 form-group">
-                                    <div class="radio">
-                                        <label>
-                                            <input type="checkbox" value=""/>
-                                            Cat 1
-                                        </label>
-                                    </div>
-                                    <div class="radio" th:remove="all">
-                                        <label>
-                                            <input type="checkbox" value=""/>
-                                            Cat 2
-                                        </label>
-                                    </div>
+                                    <ul>
+                                        <li th:each="item : ${categoriesList}">
+                                            <input type="checkbox" th:field="*{categories}" th:value="${item}"/>
+                                            <label th:for="${#ids.prev('categories')}" th:text="${item.getDescription()}"></label>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
                             <div class="row">

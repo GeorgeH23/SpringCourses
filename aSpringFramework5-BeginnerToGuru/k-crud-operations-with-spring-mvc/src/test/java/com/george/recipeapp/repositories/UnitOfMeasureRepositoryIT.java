@@ -26,7 +26,7 @@ class UnitOfMeasureRepositoryIT {
 
         Optional<UnitOfMeasure> uomOptional = unitOfMeasureRepository.findByDescription("Teaspoon");
 
-        assertEquals("Teaspoon", uomOptional.get().getDescription());
+        uomOptional.ifPresent(unitOfMeasure -> assertEquals("Teaspoon", unitOfMeasure.getDescription()));
     }
 
     @Test
@@ -35,6 +35,6 @@ class UnitOfMeasureRepositoryIT {
 
         Optional<UnitOfMeasure> uomOptional = unitOfMeasureRepository.findByDescription("Cup");
 
-        assertEquals("Cup", uomOptional.get().getDescription());
+        uomOptional.ifPresent(unitOfMeasure -> assertEquals("Cup", unitOfMeasure.getDescription()));
     }
 }

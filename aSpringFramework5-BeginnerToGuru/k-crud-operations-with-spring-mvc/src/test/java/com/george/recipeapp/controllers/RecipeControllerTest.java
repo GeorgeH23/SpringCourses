@@ -2,6 +2,7 @@ package com.george.recipeapp.controllers;
 
 import com.george.recipeapp.commands.RecipeCommand;
 import com.george.recipeapp.domain.Recipe;
+import com.george.recipeapp.services.CategoryService;
 import com.george.recipeapp.services.RecipeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,6 +24,9 @@ class RecipeControllerTest {
     @Mock
     RecipeService recipeService;
 
+    @Mock
+    CategoryService categoryService;
+
     RecipeController recipeController;
 
     MockMvc mockMvc;
@@ -31,7 +35,7 @@ class RecipeControllerTest {
     void setUp() {
         MockitoAnnotations.initMocks(this);
 
-        recipeController = new RecipeController(recipeService);
+        recipeController = new RecipeController(recipeService, categoryService);
 
         mockMvc = MockMvcBuilders.standaloneSetup(recipeController).build();
     }
@@ -70,10 +74,9 @@ class RecipeControllerTest {
         when(recipeService.saveRecipeCommand(any())).thenReturn(command);
 
         mockMvc.perform(post("/recipe")
-                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-//                .param("id", "")
-//                .param("description", "some string")
-        )
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("id", "")
+                .param("description", "some string"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/recipe/2/show"));
     }
