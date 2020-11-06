@@ -35,6 +35,7 @@ public class RecipeController {
     @RequestMapping("recipe/new")
     public String newRecipe(Model model) {
         model.addAttribute(RECIPE_ATTRIBUTE, new RecipeCommand());
+        model.addAttribute("categoriesList", categoryService.listAllCategories());
 
         return RECIPE_RECIPE_FORM_URL;
     }
