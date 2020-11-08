@@ -1,15 +1,12 @@
 package com.george.recipeapp.controllers;
 
 import com.george.recipeapp.commands.RecipeCommand;
-import com.george.recipeapp.domain.Difficulty;
 import com.george.recipeapp.services.CategoryService;
 import com.george.recipeapp.services.RecipeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Arrays;
 
 @Controller
 @Slf4j
