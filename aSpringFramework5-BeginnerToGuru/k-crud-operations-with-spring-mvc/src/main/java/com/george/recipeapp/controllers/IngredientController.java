@@ -1,6 +1,8 @@
 package com.george.recipeapp.controllers;
 
 import com.george.recipeapp.commands.IngredientCommand;
+import com.george.recipeapp.commands.RecipeCommand;
+import com.george.recipeapp.commands.UnitOfMeasureCommand;
 import com.george.recipeapp.services.IngredientService;
 import com.george.recipeapp.services.RecipeService;
 import com.george.recipeapp.services.UnitOfMeasureService;
@@ -40,6 +42,26 @@ public class IngredientController {
 
         model.addAttribute("ingredient", ingredientService.findByRecipeIdAndIngredientId(Long.valueOf(recipeId), Long.valueOf(id)));
         return "recipe/ingredient/show";
+    }
+
+    @GetMapping
+    @RequestMapping("recipe/{recipeId}/ingredient/new")
+    public String newRecipe(@PathVariable String recipeId, Model model) {
+        //make sure we have a good id value
+        RecipeCommand recipeCommand = recipeService.findCommandById(Long.valueOf(recipeId));
+        //todo raise exception if null
+
+        //need to return back parent id for hidden form property
+        IngredientCommand ingredientCommand = new IngredientCommand();
+        ingredientCommand.setRecipeId(Long.valueOf(recipeId));
+        model.addAttribute("ingredient", ingredientCommand);
+
+        //init uom
+        ingredientCommand.setUom(new UnitOfMeasureCommand());
+
+        model.addAttribute("uomList", unitOfMeasureService.listAllUoms());
+
+        return "recipe/ingredient/ingredientform";
     }
 
     @GetMapping
