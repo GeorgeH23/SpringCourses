@@ -58,10 +58,10 @@
                                 <div class="col-md-3 form-group">
                                     <label>Difficulty:</label>
                                     <!--<input type="text" class="form-control" th:field="*{difficulty}"/>-->
-                                    <select class="form-control" name="difficulty">
-                                        <option th:each="dificulty : ${T(com.george.recipeapp.domain.Difficulty).values()}"
-                                                th:value="${dificulty}"
-                                                th:text="${dificulty}"> </option>
+                                    <select class="form-control" th:field = "*{difficulty}">
+                                        <option th:each="dificultyValue : ${T(com.george.recipeapp.domain.Difficulty).values()}"
+                                                th:value="${dificultyValue.name()}"
+                                                th:text="${dificultyValue.name()}"> </option>
                                     </select>
                                 </div>
                             </div>
