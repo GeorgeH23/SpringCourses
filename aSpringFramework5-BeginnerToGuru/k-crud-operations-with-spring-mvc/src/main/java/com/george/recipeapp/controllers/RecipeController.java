@@ -24,16 +24,14 @@ public class RecipeController {
         this.categoryService = categoryService;
     }
 
-    @GetMapping
-    @RequestMapping("/recipe/{id}/show")
+    @GetMapping("/recipe/{id}/show")
     public String showById(@PathVariable String id, Model model) {
         model.addAttribute(RECIPE_ATTRIBUTE, recipeService.findById(Long.parseLong(id)));
 
         return "recipe/show";
     }
 
-    @GetMapping
-    @RequestMapping("recipe/new")
+    @GetMapping("recipe/new")
     public String newRecipe(Model model) {
         model.addAttribute(RECIPE_ATTRIBUTE, new RecipeCommand());
         model.addAttribute("categoriesList", categoryService.listAllCategories());
@@ -41,8 +39,7 @@ public class RecipeController {
         return RECIPE_RECIPE_FORM_URL;
     }
 
-    @GetMapping
-    @RequestMapping("recipe/{id}/update")
+    @GetMapping("recipe/{id}/update")
     public String updateRecipe(@PathVariable String id, Model model){
         model.addAttribute(RECIPE_ATTRIBUTE, recipeService.findCommandById(Long.valueOf(id)));
         model.addAttribute("categoriesList", categoryService.listAllCategories());
@@ -51,16 +48,14 @@ public class RecipeController {
     }
 
     //@RequestMapping(name = "recipe", method = RequestMethod.POST) -OLD Spring 4 Way
-    @PostMapping
-    @RequestMapping(RECIPE_ATTRIBUTE)
+    @PostMapping(RECIPE_ATTRIBUTE)
     public String saveOrUpdate(@ModelAttribute RecipeCommand command) {
         RecipeCommand savedCommand = recipeService.saveRecipeCommand(command);
 
         return "redirect:/recipe/" + savedCommand.getId() + "/show";
     }
 
-    @GetMapping
-    @RequestMapping(value = "recipe/{id}/delete")
+    @GetMapping(value = "recipe/{id}/delete")
     public String deleteById(@PathVariable String id) {
         log.debug("Deleting id: " + id);
 
