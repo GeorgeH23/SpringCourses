@@ -23,6 +23,7 @@
             <form  th:object="${recipe}" th:action="@{/recipe/}"  method="post">
                 <input type="hidden" th:field="*{id}"/>
                 <input type="hidden" th:field="*{notes.id}"/>
+                <input type="hidden" th:field="*{image}">
                 <div class="panel-group">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
