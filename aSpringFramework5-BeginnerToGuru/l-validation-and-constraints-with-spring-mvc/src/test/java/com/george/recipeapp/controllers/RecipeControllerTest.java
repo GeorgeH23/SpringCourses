@@ -2,6 +2,7 @@ package com.george.recipeapp.controllers;
 
 import com.george.recipeapp.commands.RecipeCommand;
 import com.george.recipeapp.domain.Recipe;
+import com.george.recipeapp.exceptions.RecipeNotFoundException;
 import com.george.recipeapp.services.CategoryService;
 import com.george.recipeapp.services.RecipeService;
 import org.junit.jupiter.api.BeforeEach;
@@ -54,6 +55,17 @@ class RecipeControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("recipe/show"))
                 .andExpect(model().attributeExists("recipe"));
+    }
+
+    @Test
+    void testGetRecipeNotFound() throws Exception {
+
+        Recipe recipe = new Recipe();
+        recipe.setId(1L);
+        when(recipeService.findById(anyLong())).thenThrow(RecipeNotFoundException.class);
+
+        mockMvc.perform(get("/recipe/1/show"))
+                .andExpect(status().isNotFound());
     }
 
     @Test
