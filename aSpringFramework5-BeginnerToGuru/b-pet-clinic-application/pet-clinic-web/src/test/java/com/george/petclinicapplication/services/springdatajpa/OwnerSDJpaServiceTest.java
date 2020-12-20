@@ -2,8 +2,6 @@ package com.george.petclinicapplication.services.springdatajpa;
 
 import com.george.petclinicapplication.model.Owner;
 import com.george.petclinicapplication.repositories.OwnerRepository;
-import com.george.petclinicapplication.repositories.PetRepository;
-import com.george.petclinicapplication.repositories.PetTypeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,12 +23,6 @@ class OwnerSDJpaServiceTest {
     static final String LAST_NAME = "Smith";
     @Mock
     OwnerRepository ownerRepository;
-
-    @Mock
-    PetRepository petRepository;
-
-    @Mock
-    PetTypeRepository petTypeRepository;
 
     @InjectMocks
     OwnerSDJpaService service;

@@ -21,7 +21,7 @@ class RecipeServiceImplTest {
     RecipeRepository recipeRepository;
 
     @BeforeEach
-    void setUp() throws Exception {
+    void setUp() {
         MockitoAnnotations.initMocks(this);
 
         recipeService = new RecipeServiceImpl(recipeRepository);
@@ -38,7 +38,7 @@ class RecipeServiceImplTest {
 
         Set<Recipe> recipes = recipeService.getRecipes();
 
-        assertEquals(recipes.size(), 1);
+        assertEquals(1, recipes.size());
         // verifies that findAll() method was called only once
         verify(recipeRepository, times(1)).findAll();
     }

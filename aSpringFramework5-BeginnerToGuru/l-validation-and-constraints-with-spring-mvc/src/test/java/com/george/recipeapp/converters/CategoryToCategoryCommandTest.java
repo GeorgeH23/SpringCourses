@@ -2,10 +2,11 @@ package com.george.recipeapp.converters;
 
 import com.george.recipeapp.commands.CategoryCommand;
 import com.george.recipeapp.domain.Category;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CategoryToCategoryCommandTest {
 
@@ -20,12 +21,12 @@ class CategoryToCategoryCommandTest {
 
     @Test
     void testNullObject() {
-        assertNull(converter.convert(null));
+        Assertions.assertNull(converter.convert(null));
     }
 
     @Test
     void testEmptyObject() {
-        assertNotNull(converter.convert(new Category()));
+        Assertions.assertNotNull(converter.convert(new Category()));
     }
 
     @Test

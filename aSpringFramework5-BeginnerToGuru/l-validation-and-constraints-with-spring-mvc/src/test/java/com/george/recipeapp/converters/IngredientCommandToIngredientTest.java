@@ -3,17 +3,15 @@ package com.george.recipeapp.converters;
 import com.george.recipeapp.commands.IngredientCommand;
 import com.george.recipeapp.commands.UnitOfMeasureCommand;
 import com.george.recipeapp.domain.Ingredient;
-import com.george.recipeapp.domain.Recipe;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 class IngredientCommandToIngredientTest {
 
-    public static final Recipe RECIPE = new Recipe();
     public static final BigDecimal AMOUNT = new BigDecimal("1");
     public static final String DESCRIPTION = "Cheeseburger";
     public static final Long ID_VALUE = 1L;
@@ -66,8 +64,6 @@ class IngredientCommandToIngredientTest {
         command.setId(ID_VALUE);
         command.setAmount(AMOUNT);
         command.setDescription(DESCRIPTION);
-        UnitOfMeasureCommand unitOfMeasureCommand = new UnitOfMeasureCommand();
-
 
         //when
         Ingredient ingredient = converter.convert(command);
