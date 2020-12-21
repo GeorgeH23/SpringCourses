@@ -4,7 +4,6 @@ import com.george.recipeapp.commands.RecipeCommand;
 import com.george.recipeapp.exceptions.RecipeNotFoundException;
 import com.george.recipeapp.services.CategoryService;
 import com.george.recipeapp.services.RecipeService;
-import javassist.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -69,10 +68,13 @@ public class RecipeController {
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(RecipeNotFoundException.class)
-    public ModelAndView handleNotFound() {
+    public ModelAndView handleNotFound(Exception exception) {
         log.error("Handling not found exception");
+        log.error(exception.getMessage());
+
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("404error");
+        modelAndView.addObject("exception", exception);
 
         return modelAndView;
     }
