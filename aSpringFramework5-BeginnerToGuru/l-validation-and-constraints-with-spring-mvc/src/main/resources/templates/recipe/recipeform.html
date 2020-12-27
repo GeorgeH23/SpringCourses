@@ -95,9 +95,14 @@
                                         </ul>
                                     </span>
                                 </div>
-                                <div class="col-md-3 form-group">
+                                <div class="col-md-3 form-group" th:class="${#fields.hasErrors('source')} ? 'col-md-3 form-group has-error' : 'col-md-3 form-group'">
                                     <label>Source:</label>
-                                    <input type="text" class="form-control" th:field="*{source}"/>
+                                    <input type="text" class="form-control" th:field="*{source}" th:errorclass="has-error"/>
+                                    <span class="help-block" th:if="${#fields.hasErrors('source')}">
+                                        <ul>
+                                            <li th:each="err : ${#fields.errors('source')}" th:text="${err}"></li>
+                                        </ul>
+                                    </span>
                                 </div>
                                 <div class="col-md-3 form-group" th:class="${#fields.hasErrors('url')} ? 'col-md-3 form-group has-error' : 'col-md-3 form-group'">
                                     <label>URL:</label>
