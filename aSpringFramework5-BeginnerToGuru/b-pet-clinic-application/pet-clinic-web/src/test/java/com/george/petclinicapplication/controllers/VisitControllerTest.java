@@ -32,10 +32,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class VisitControllerTest {
 
     private static final String PETS_CREATE_OR_UPDATE_VISIT_FORM = "pets/createOrUpdateVisitForm";
+    private static final String REDIRECT_OWNERS_1 = "redirect:/owners/{ownerId}";
     private static final String YET_ANOTHER_VISIT_DESCRIPTION = "yet another visit";
 
     @Mock
     PetService petService;
+
+    @Mock
+    VisitService visitService;
 
     @InjectMocks
     VisitController visitController;
@@ -92,9 +96,8 @@ class VisitControllerTest {
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("date","2018-11-11")
                 .param("description", YET_ANOTHER_VISIT_DESCRIPTION))
-                .andExpect(status().is2xxSuccessful())
-                /*.andExpect(status().is3xxRedirection())
-                .andExpect(view().name(REDIRECT_OWNERS_1))*/
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name(REDIRECT_OWNERS_1))
                 .andExpect(model().attributeExists("visit"))
         ;
     }
