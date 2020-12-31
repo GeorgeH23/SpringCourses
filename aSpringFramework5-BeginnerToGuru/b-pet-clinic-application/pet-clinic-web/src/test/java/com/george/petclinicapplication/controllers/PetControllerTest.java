@@ -7,6 +7,7 @@ import com.george.petclinicapplication.services.OwnerService;
 import com.george.petclinicapplication.services.PetService;
 import com.george.petclinicapplication.services.PetTypeService;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -94,6 +95,7 @@ class PetControllerTest {
                 .andExpect(view().name("pets/createOrUpdatePetForm"));
     }
 
+    @Disabled
     @Test
     void processUpdateForm() throws Exception {
         when(ownerService.findById(anyLong())).thenReturn(owner);
