@@ -12,12 +12,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class IngredientCommandToIngredientTest {
 
-    public static final BigDecimal AMOUNT = new BigDecimal("1");
-    public static final String DESCRIPTION = "Cheeseburger";
-    public static final Long ID_VALUE = 1L;
-    public static final Long UOM_ID = 2L;
+    private static final BigDecimal AMOUNT = new BigDecimal("1");
+    private static final String DESCRIPTION = "Cheeseburger";
+    private static final Long ID_VALUE = 1L;
+    private static final Long UOM_ID = 2L;
 
-    IngredientCommandToIngredient converter;
+    private IngredientCommandToIngredient converter;
 
     @BeforeEach
     void setUp() {

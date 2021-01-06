@@ -9,10 +9,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class UnitOfMeasureToUnitOfMeasureCommandTest {
 
-    public static final String DESCRIPTION = "description";
-    public static final Long LONG_VALUE = 1L;
+    private static final String DESCRIPTION = "description";
+    private static final Long LONG_VALUE = 1L;
 
-    UnitOfMeasureToUnitOfMeasureCommand converter;
+    private UnitOfMeasureToUnitOfMeasureCommand converter;
 
     @BeforeEach
     void setUp() {

@@ -13,14 +13,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class IngredientToIngredientCommandTest {
 
-    public static final Recipe RECIPE = new Recipe();
-    public static final BigDecimal AMOUNT = new BigDecimal("1");
-    public static final String DESCRIPTION = "Cheeseburger";
-    public static final Long UOM_ID = 2L;
-    public static final Long ID_VALUE = 1L;
+    private static final Recipe RECIPE = new Recipe();
+    private static final BigDecimal AMOUNT = new BigDecimal("1");
+    private static final String DESCRIPTION = "Cheeseburger";
+    private static final Long UOM_ID = 2L;
+    private static final Long ID_VALUE = 1L;
 
 
-    IngredientToIngredientCommand converter;
+    private IngredientToIngredientCommand converter;
 
     @BeforeEach
     void setUp() {

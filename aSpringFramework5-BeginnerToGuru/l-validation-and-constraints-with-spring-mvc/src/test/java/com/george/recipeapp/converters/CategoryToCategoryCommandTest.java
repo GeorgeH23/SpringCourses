@@ -10,9 +10,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CategoryToCategoryCommandTest {
 
-    public static final Long ID_VALUE = 1L;
-    public static final String DESCRIPTION = "descript";
-    CategoryToCategoryCommand converter;
+    private static final Long ID_VALUE = 1L;
+    private static final String DESCRIPTION = "descript";
+    private CategoryToCategoryCommand converter;
 
     @BeforeEach
     void setUp() {

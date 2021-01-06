@@ -9,9 +9,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class NotesCommandToNotesTest {
 
-    public static final Long ID_VALUE = 1L;
-    public static final String RECIPE_NOTES = "Notes";
-    NotesCommandToNotes converter;
+    private static final Long ID_VALUE = 1L;
+    private static final String RECIPE_NOTES = "Notes";
+    private NotesCommandToNotes converter;
 
     @BeforeEach
     void setUp() {

@@ -12,8 +12,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class CategoryCommandToCategoryTest {
 
-    public static final Long ID_VALUE = 1L;
-    public static final String DESCRIPTION = "description";
+    private static final Long ID_VALUE = 1L;
+    private static final String DESCRIPTION = "description";
     CategoryCommandToCategory converter;
 
     @BeforeEach
