@@ -23,6 +23,7 @@
         <module>k-crud-operations-with-spring-mvc</module>
         <module>l-validation-and-constraints-with-spring-mvc</module>
         <module>m-using-mysql-with-spring-boot</module>
+        <module>n-spring-data-mongodb</module>
     </modules>
 
     <artifactId>aSpringFramework5-BeginnerToGuru</artifactId>
