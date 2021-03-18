@@ -16,7 +16,7 @@ public class CategorySingleStringToSet implements Converter<String, Set<Category
 
         int indexOfEquals = s.indexOf('=');
 
-        Long id = Long.parseLong(s.substring(0, indexOfEquals));
+        String id = s.substring(0, indexOfEquals);
         String description = s.substring(indexOfEquals + 1);
 
         CategoryCommand categoryCommand = new CategoryCommand();

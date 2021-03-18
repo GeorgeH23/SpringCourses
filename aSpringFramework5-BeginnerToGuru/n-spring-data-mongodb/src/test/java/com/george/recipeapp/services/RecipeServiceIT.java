@@ -5,6 +5,7 @@ import com.george.recipeapp.converters.RecipeCommandToRecipe;
 import com.george.recipeapp.converters.RecipeToRecipeCommand;
 import com.george.recipeapp.domain.Recipe;
 import com.george.recipeapp.repositories.RecipeRepository;
+import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 class RecipeServiceIT {
-
+/*
     private static final String NEW_DESCRIPTION = "New Description";
 
     @Autowired
@@ -47,5 +48,5 @@ class RecipeServiceIT {
         assertEquals(testRecipe.getId(), savedRecipeCommand.getId());
         assertEquals(testRecipe.getCategories().size(), savedRecipeCommand.getCategories().size());
         assertEquals(testRecipe.getIngredients().size(), savedRecipeCommand.getIngredients().size());
-    }
+    }*/
 }

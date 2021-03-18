@@ -21,7 +21,7 @@ public class CategoryStringArrayToSet implements Converter<String[], Set<Categor
             String id = category.substring(0, indexOfEquals);
             String description = category.substring(indexOfEquals + 1);
 
-            categoryCommand.setId(Long.parseLong(id));
+            categoryCommand.setId(id);
             categoryCommand.setDescription(description);
 
             setToReturn.add(categoryCommand);

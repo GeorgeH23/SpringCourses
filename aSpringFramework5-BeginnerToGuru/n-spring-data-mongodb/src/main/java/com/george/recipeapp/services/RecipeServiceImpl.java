@@ -8,8 +8,8 @@ import com.george.recipeapp.exceptions.RecipeNotFoundException;
 import com.george.recipeapp.repositories.RecipeRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.*;
 
 @Slf4j
@@ -36,7 +36,7 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public Recipe findById(Long id) {
+    public Recipe findById(String id) {
         Optional<Recipe> recipeOptional =  recipeRepository.findById(id);
 
         if (recipeOptional.isEmpty()) {
@@ -48,7 +48,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     @Transactional
-    public RecipeCommand findCommandById(Long l) {
+    public RecipeCommand findCommandById(String l) {
         return recipeToRecipeCommand.convert(findById(l));
     }
 
@@ -63,7 +63,7 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public void deleteById(Long idToDelete) {
+    public void deleteById(String idToDelete) {
         recipeRepository.deleteById(idToDelete);
     }
 }

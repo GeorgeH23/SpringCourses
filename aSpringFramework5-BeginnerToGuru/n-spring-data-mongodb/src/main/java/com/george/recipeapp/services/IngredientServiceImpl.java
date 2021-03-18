@@ -9,8 +9,8 @@ import com.george.recipeapp.repositories.RecipeRepository;
 import com.george.recipeapp.repositories.UnitOfMeasureRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Slf4j
@@ -31,7 +31,7 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     @Override
-    public IngredientCommand findByRecipeIdAndIngredientId(Long recipeId, Long ingredientId) {
+    public IngredientCommand findByRecipeIdAndIngredientId(String recipeId, String ingredientId) {
 
         Optional<Recipe> recipeOptional = recipeRepository.findById(recipeId);
 
@@ -108,7 +108,7 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     @Override
-    public void deleteById(Long recipeId, Long idToDelete) {
+    public void deleteById(String recipeId, String idToDelete) {
 
         log.debug("Deleting ingredient: " + recipeId + ":" + idToDelete);
 
