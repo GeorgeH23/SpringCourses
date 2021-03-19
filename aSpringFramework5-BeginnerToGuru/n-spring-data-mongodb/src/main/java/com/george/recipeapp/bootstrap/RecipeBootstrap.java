@@ -12,9 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Slf4j
 @Component
@@ -34,13 +32,13 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
     @Override
     @Transactional
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
-        loadCategories();
-        loadUom();
-        recipeRepository.saveAll(getRecipes());
+        if (((ArrayList<Recipe>) recipeRepository.findAll()).isEmpty()) {
+            recipeRepository.saveAll(getRecipes());
+        }
         log.debug("Loading Bootstrap data.");
     }
 
-    private void loadCategories(){
+    private void loadCategories() {
         Category cat1 = new Category();
         cat1.setDescription("American");
         categoryRepository.save(cat1);
@@ -58,7 +56,7 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
         categoryRepository.save(cat4);
     }
 
-    private void loadUom(){
+    private void loadUom() {
         UnitOfMeasure uom1 = new UnitOfMeasure();
         uom1.setDescription("Teaspoon");
         unitOfMeasureRepository.save(uom1);
@@ -93,6 +91,8 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
     }
 
     private List<Recipe> getRecipes() {
+        loadCategories();
+        loadUom();
 
         List<Recipe> recipes = new ArrayList<>(2);
 
