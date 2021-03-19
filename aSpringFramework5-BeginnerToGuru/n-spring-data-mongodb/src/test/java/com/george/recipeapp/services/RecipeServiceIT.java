@@ -5,17 +5,12 @@ import com.george.recipeapp.converters.RecipeCommandToRecipe;
 import com.george.recipeapp.converters.RecipeToRecipeCommand;
 import com.george.recipeapp.domain.Recipe;
 import com.george.recipeapp.repositories.RecipeRepository;
-import org.junit.Ignore;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@Ignore
 @SpringBootTest
 class RecipeServiceIT {
 
@@ -33,8 +28,7 @@ class RecipeServiceIT {
     @Autowired
     RecipeToRecipeCommand recipeToRecipeCommand;
 
-    @Disabled
-    @Transactional
+
     @Test
     void testSaveOfDescription() {
         //given

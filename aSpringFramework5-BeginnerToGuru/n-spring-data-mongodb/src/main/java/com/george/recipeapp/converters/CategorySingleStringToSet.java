@@ -4,15 +4,15 @@ import com.george.recipeapp.commands.CategoryCommand;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
-public class CategorySingleStringToSet implements Converter<String, Set<CategoryCommand>> {
+public class CategorySingleStringToSet implements Converter<String, List<CategoryCommand>> {
 
     @Override
-    public Set<CategoryCommand> convert(String s) {
-        Set<CategoryCommand> setToReturn = new HashSet<>();
+    public List<CategoryCommand> convert(String s) {
+        List<CategoryCommand> setToReturn = new ArrayList<>();
 
         int indexOfEquals = s.indexOf('=');
 

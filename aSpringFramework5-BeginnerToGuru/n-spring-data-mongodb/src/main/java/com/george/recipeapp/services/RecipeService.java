@@ -11,9 +11,9 @@ public interface RecipeService {
 
     Recipe findById(String id);
 
-    RecipeCommand findCommandById(String l);
+    RecipeCommand findCommandById(String id);
 
     RecipeCommand saveRecipeCommand(RecipeCommand command);
 
-    void deleteById(String l);
+    void deleteById(String iid);
 }
