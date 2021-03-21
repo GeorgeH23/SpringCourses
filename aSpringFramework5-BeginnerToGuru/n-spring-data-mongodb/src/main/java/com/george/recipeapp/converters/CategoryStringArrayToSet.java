@@ -12,7 +12,7 @@ public class CategoryStringArrayToSet implements Converter<String[], List<Catego
 
     @Override
     public List<CategoryCommand> convert(String[] source) {
-        List<CategoryCommand> setToReturn = new ArrayList<>();
+        List<CategoryCommand> listToReturn = new ArrayList<>();
         for (String category : source) {
             CategoryCommand categoryCommand = new CategoryCommand();
 
@@ -24,8 +24,8 @@ public class CategoryStringArrayToSet implements Converter<String[], List<Catego
             categoryCommand.setId(id);
             categoryCommand.setDescription(description);
 
-            setToReturn.add(categoryCommand);
+            listToReturn.add(categoryCommand);
         }
-        return setToReturn;
+        return listToReturn;
     }
 }

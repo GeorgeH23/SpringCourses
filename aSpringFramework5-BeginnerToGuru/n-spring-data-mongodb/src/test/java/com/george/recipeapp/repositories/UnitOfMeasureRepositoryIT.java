@@ -46,7 +46,6 @@ class UnitOfMeasureRepositoryIT {
 
 
     @Test
-    //@DirtiesContext
     void findByDescriptionCup() {
 
         Optional<UnitOfMeasure> uomOptional = unitOfMeasureRepository.findByDescription("Cup");

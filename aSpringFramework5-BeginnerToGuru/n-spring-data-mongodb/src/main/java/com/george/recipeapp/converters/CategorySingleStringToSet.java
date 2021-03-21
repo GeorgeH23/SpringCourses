@@ -12,7 +12,7 @@ public class CategorySingleStringToSet implements Converter<String, List<Categor
 
     @Override
     public List<CategoryCommand> convert(String s) {
-        List<CategoryCommand> setToReturn = new ArrayList<>();
+        List<CategoryCommand> listToReturn = new ArrayList<>();
 
         int indexOfEquals = s.indexOf('=');
 
@@ -23,8 +23,8 @@ public class CategorySingleStringToSet implements Converter<String, List<Categor
         categoryCommand.setId(id);
         categoryCommand.setDescription(description);
 
-        setToReturn.add(categoryCommand);
+        listToReturn.add(categoryCommand);
 
-        return setToReturn;
+        return listToReturn;
     }
 }
