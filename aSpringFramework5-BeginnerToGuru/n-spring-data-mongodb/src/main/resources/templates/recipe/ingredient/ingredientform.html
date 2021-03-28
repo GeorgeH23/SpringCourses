@@ -47,7 +47,8 @@
                                         <option th:each="uomEach : ${uomList}"
                                                 th:value="${uomEach.getId()}"
                                                 th:selected="${uomEach.getId().equals(ingredient.getUom().getId())}"
-                                                th:text="${uomEach.getDescription()}">Each</option>
+                                                th:text="${uomEach.getDescription()}">Each
+                                        </option>
                                     </select>
                                 </div>
                             </div>
