@@ -65,7 +65,7 @@ public class RecipeServiceImpl implements RecipeService {
     @Transactional
     public RecipeCommand saveRecipeCommand(RecipeCommand command) {
         Recipe detachedRecipe = recipeCommandToRecipe.convert(command);
-        if (detachedRecipe.getId() == null) {
+        if (detachedRecipe.getId().isEmpty()) {
             detachedRecipe.setId(UUID.randomUUID().toString());
         }
 

@@ -3,10 +3,7 @@ package com.george.recipeapp.domain;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CategoryTest {
 
@@ -31,14 +28,5 @@ class CategoryTest {
         category.setDescription("new recipe");
 
         assertEquals("new recipe", category.getDescription());
-    }
-
-    @Test
-    void getRecipes() {
-
-        Set<Recipe> recipes = new HashSet<>();
-        category.setRecipes(recipes);
-
-        assertNotNull(category.getRecipes());
     }
 }

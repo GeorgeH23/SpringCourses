@@ -8,6 +8,7 @@ import com.george.recipeapp.converters.UnitOfMeasureCommandToUnitOfMeasure;
 import com.george.recipeapp.converters.UnitOfMeasureToUnitOfMeasureCommand;
 import com.george.recipeapp.domain.Ingredient;
 import com.george.recipeapp.domain.Recipe;
+import com.george.recipeapp.domain.UnitOfMeasure;
 import com.george.recipeapp.repositories.reactive.RecipeReactiveRepository;
 import com.george.recipeapp.repositories.reactive.UnitOfMeasureReactiveRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -96,6 +97,7 @@ class IngredientServiceImplTest {
 
         when(recipeReactiveRepository.findById(anyString())).thenReturn(Mono.just(new Recipe()));
         when(recipeReactiveRepository.save(any())).thenReturn(Mono.just(savedRecipe));
+        when(unitOfMeasureReactiveRepository.findById(anyString())).thenReturn(Mono.just(new UnitOfMeasure()));
 
         //when
         IngredientCommand savedCommand = ingredientService.saveIngredientCommand(command).block();
