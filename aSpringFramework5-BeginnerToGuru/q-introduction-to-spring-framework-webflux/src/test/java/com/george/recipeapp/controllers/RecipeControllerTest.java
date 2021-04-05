@@ -6,6 +6,7 @@ import com.george.recipeapp.exceptions.RecipeNotFoundException;
 import com.george.recipeapp.services.CategoryService;
 import com.george.recipeapp.services.RecipeService;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -20,6 +21,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+@Disabled
 class RecipeControllerTest {
 
     @Mock

@@ -3,6 +3,7 @@ package com.george.recipeapp.controllers;
 import com.george.recipeapp.domain.Recipe;
 import com.george.recipeapp.services.RecipeService;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
@@ -40,6 +41,7 @@ class IndexControllerTest {
         controller = new IndexController(recipeService);
     }
 
+    @Disabled
     @Test
     void testMockMVC() throws Exception {
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
