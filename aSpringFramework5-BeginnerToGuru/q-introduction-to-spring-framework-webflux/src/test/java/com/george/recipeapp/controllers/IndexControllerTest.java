@@ -2,37 +2,46 @@ package com.george.recipeapp.controllers;
 
 import com.george.recipeapp.domain.Recipe;
 import com.george.recipeapp.services.RecipeService;
+import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfiguration;
+import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.ui.Model;
 import reactor.core.publisher.Flux;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+@ExtendWith(SpringExtension.class)
+@WebFluxTest(controllers = IndexController.class)
+@Import(ThymeleafAutoConfiguration.class)
 class IndexControllerTest {
 
-    @Mock
-    RecipeService recipeService;
+    IndexController controller;
+
+    @MockBean
+    private RecipeService recipeService;
+
+    @Autowired
+    private WebTestClient webTestClient;
 
     @Mock
     Model model;
-
-    IndexController controller;
 
     @BeforeEach
     public void setUp() {
@@ -41,45 +50,54 @@ class IndexControllerTest {
         controller = new IndexController(recipeService);
     }
 
-    @Disabled
     @Test
-    void testMockMVC() throws Exception {
-        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
+    void testIndex() {
+        // given
+        Recipe expectedRecipe1 = new Recipe();
+        expectedRecipe1.setDescription("Fajita");
 
-        when(recipeService.getRecipes()).thenReturn(Flux.empty());
+        Recipe expectedRecipe2 = new Recipe();
+        expectedRecipe2.setDescription("Taco");
 
-        mockMvc.perform(get("/"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("index"));
+        when(recipeService.getRecipes()).thenReturn(Flux.just(expectedRecipe1, expectedRecipe2));
+
+        // when
+
+        // then
+        webTestClient.get().uri("/index")
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(String.class)
+                .consumeWith(response -> {
+                    System.out.println(response.getResponseBody());
+                    String responseBody = Objects.requireNonNull(response.getResponseBody());
+                    assertTrue(responseBody.contains("Fajita"));
+                    assertTrue(responseBody.contains("Taco"));
+                });
+
+        verify(recipeService, times(1)).getRecipes();
     }
 
     @Test
     void getIndexPage() {
-
-        //given
-        Set<Recipe> recipes = new HashSet<>();
-
-        Recipe recipe = new Recipe();
-        recipe.setId("1");
-        recipes.add(recipe);
-
+        // given
         Recipe recipe1 = new Recipe();
-        recipe.setId("2");
-        recipes.add(recipe1);
+        recipe1.setId("1");
+        Recipe recipe2 = new Recipe();
+        recipe2.setId("2");
 
-        when(recipeService.getRecipes()).thenReturn(Flux.fromIterable(recipes));
+        when(recipeService.getRecipes()).thenReturn(Flux.just(recipe1, recipe2));
 
-        ArgumentCaptor<List<Recipe>> argumentCaptor = ArgumentCaptor.forClass(List.class);
+        ArgumentCaptor<Flux<Recipe>> argCaptor = ArgumentCaptor.forClass(Flux.class);
 
-        //when
-        String viewName = controller.getIndexPage(model);
+        // when
+        String templateName = controller.getIndexPage(model);
 
-        //then
-        assertEquals("index", viewName);
+        // then
+        Assert.assertEquals("index", templateName);
         verify(recipeService, times(1)).getRecipes();
-        verify(model, times(1)).addAttribute(eq("recipes"), argumentCaptor.capture());
-
-        List<Recipe> setInController = argumentCaptor.getValue();
-        assertEquals(2, setInController.size());
+        verify(model, times(1)).addAttribute(eq("recipes"), argCaptor.capture());
+        List<Recipe> modelRecipes = argCaptor.getValue().collectList().block();
+        assertEquals(2, modelRecipes.size());
     }
 }
