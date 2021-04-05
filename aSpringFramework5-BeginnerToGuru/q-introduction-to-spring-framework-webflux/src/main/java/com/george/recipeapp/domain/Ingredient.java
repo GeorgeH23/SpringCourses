@@ -1,0 +1,25 @@
+package com.george.recipeapp.domain;
+
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
+
+import java.math.BigDecimal;
+import java.util.UUID;
+
+@Data
+@NoArgsConstructor
+public class Ingredient {
+
+    @Id
+    private String id = UUID.randomUUID().toString();
+    private String description;
+    private BigDecimal amount;
+    private UnitOfMeasure uom;
+
+    public Ingredient(String description, BigDecimal amount, UnitOfMeasure uom) {
+        this.description = description;
+        this.amount = amount;
+        this.uom = uom;
+    }
+}
