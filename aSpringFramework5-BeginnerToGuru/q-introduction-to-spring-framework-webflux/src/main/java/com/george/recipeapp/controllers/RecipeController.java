@@ -32,7 +32,7 @@ public class RecipeController {
 
     @GetMapping("/recipe/{id}/show")
     public String showById(@PathVariable String id, Model model) {
-        model.addAttribute(RECIPE_ATTRIBUTE, recipeService.findById(id).toProcessor().block());
+        model.addAttribute(RECIPE_ATTRIBUTE, recipeService.findById(id).toProcessor());
 
         return "recipe/show";
     }

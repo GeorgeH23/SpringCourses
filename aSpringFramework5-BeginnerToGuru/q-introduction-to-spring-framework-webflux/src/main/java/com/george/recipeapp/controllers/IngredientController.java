@@ -1,7 +1,6 @@
 package com.george.recipeapp.controllers;
 
 import com.george.recipeapp.commands.IngredientCommand;
-import com.george.recipeapp.commands.RecipeCommand;
 import com.george.recipeapp.commands.UnitOfMeasureCommand;
 import com.george.recipeapp.services.IngredientService;
 import com.george.recipeapp.services.RecipeService;
@@ -33,7 +32,7 @@ public class IngredientController {
         log.debug("Getting ingredient list for recipe id: " + recipeId);
 
         //use command object to avoid lazy load errors in Thymeleaf
-        model.addAttribute("recipe", recipeService.findCommandById(recipeId).toProcessor().block());
+        model.addAttribute("recipe", recipeService.findCommandById(recipeId));
 
         return "recipe/ingredient/list";
     }
@@ -41,15 +40,12 @@ public class IngredientController {
     @GetMapping("recipe/{recipeId}/ingredient/{id}/show")
     public String showRecipeIngredient(@PathVariable String recipeId, @PathVariable String id, Model model) {
 
-        model.addAttribute("ingredient", ingredientService.findByRecipeIdAndIngredientId(recipeId, id).toProcessor().block());
+        model.addAttribute("ingredient", ingredientService.findByRecipeIdAndIngredientId(recipeId, id));
         return "recipe/ingredient/show";
     }
 
     @GetMapping("recipe/{recipeId}/ingredient/new")
-    public String newRecipe(@PathVariable String recipeId, Model model) {
-        //make sure we have a good id value
-        RecipeCommand recipeCommand = recipeService.findCommandById(recipeId).toProcessor().block();
-        //todo raise exception if null
+    public String newIngredient(@PathVariable String recipeId, Model model) {
 
         //need to return back parent id for hidden form property
         IngredientCommand ingredientCommand = new IngredientCommand();
@@ -59,16 +55,16 @@ public class IngredientController {
         //init uom
         ingredientCommand.setUom(new UnitOfMeasureCommand());
 
-        model.addAttribute("uomList", unitOfMeasureService.listAllUoms().collectList().toProcessor().block());
+        model.addAttribute("uomList", unitOfMeasureService.listAllUoms());
 
         return "recipe/ingredient/ingredientform";
     }
 
     @GetMapping("recipe/{recipeId}/ingredient/{id}/update")
     public String updateRecipeIngredient(@PathVariable String recipeId, @PathVariable String id, Model model) {
-        model.addAttribute("ingredient", ingredientService.findByRecipeIdAndIngredientId(recipeId, id).toProcessor().block());
+        model.addAttribute("ingredient", ingredientService.findByRecipeIdAndIngredientId(recipeId, id));
 
-        model.addAttribute("uomList", unitOfMeasureService.listAllUoms().collectList().toProcessor().block());
+        model.addAttribute("uomList", unitOfMeasureService.listAllUoms());
         return "recipe/ingredient/ingredientform";
     }
 
