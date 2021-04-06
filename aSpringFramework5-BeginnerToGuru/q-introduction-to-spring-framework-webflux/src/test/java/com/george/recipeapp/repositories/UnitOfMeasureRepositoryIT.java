@@ -2,62 +2,55 @@ package com.george.recipeapp.repositories;
 
 import com.george.recipeapp.bootstrap.RecipeBootstrap;
 import com.george.recipeapp.domain.UnitOfMeasure;
+import com.george.recipeapp.repositories.reactive.CategoryReactiveRepository;
+import com.george.recipeapp.repositories.reactive.RecipeReactiveRepository;
+import com.george.recipeapp.repositories.reactive.UnitOfMeasureReactiveRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
+import reactor.test.StepVerifier;
 
 import java.util.Optional;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataMongoTest
 class UnitOfMeasureRepositoryIT {
 
     @Autowired
-    UnitOfMeasureRepository unitOfMeasureRepository;
+    UnitOfMeasureReactiveRepository unitOfMeasureReactiveRepository;
 
     @Autowired
-    CategoryRepository categoryRepository;
+    CategoryReactiveRepository categoryReactiveRepository;
 
     @Autowired
-    RecipeRepository recipeRepository;
+    RecipeReactiveRepository recipeReactiveRepository;
 
     @BeforeEach
     void setUp() {
-        recipeRepository.deleteAll();
-        unitOfMeasureRepository.deleteAll();
-        categoryRepository.deleteAll();
+        recipeReactiveRepository.deleteAll();
+        unitOfMeasureReactiveRepository.deleteAll();
+        categoryReactiveRepository.deleteAll();
 
-        RecipeBootstrap recipeBootstrap = new RecipeBootstrap(categoryRepository, recipeRepository, unitOfMeasureRepository);
+        RecipeBootstrap recipeBootstrap = new RecipeBootstrap(recipeReactiveRepository, unitOfMeasureReactiveRepository,
+                categoryReactiveRepository);
 
         recipeBootstrap.onApplicationEvent(null);
     }
 
     @Test
     void findByDescription() {
-
-        Optional<UnitOfMeasure> uomOptional = unitOfMeasureRepository.findByDescription("Teaspoon");
-
-        String description = "";
-        if (uomOptional.isPresent()) {
-            description = uomOptional.get().getDescription();
-        }
-
-        assertEquals("Teaspoon", description);
+        StepVerifier.create(unitOfMeasureReactiveRepository.findByDescription("Teaspoon"))
+                .assertNext(uom -> assertThat(uom.getDescription(), is("Teaspoon")));
     }
 
 
     @Test
     void findByDescriptionCup() {
-
-        Optional<UnitOfMeasure> uomOptional = unitOfMeasureRepository.findByDescription("Cup");
-
-        String description = "";
-        if (uomOptional.isPresent()) {
-            description = uomOptional.get().getDescription();
-        }
-
-        assertEquals("Cup", description);
+        StepVerifier.create(unitOfMeasureReactiveRepository.findByDescription("Cup"))
+                .assertNext(uom -> assertThat(uom.getDescription(), is("Cup")));
     }
 }
