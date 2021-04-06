@@ -51,7 +51,7 @@
                                 <div class="col-md-3 form-group"  th:class="${#fields.hasErrors('amount')}
                                 ? 'col-md-3 form-group has-error' : 'col-md-3 form-group'">
                                     <label>Amount:</label>
-                                    <input type="number" class="form-control" th:field="*{amount}" th:errorclass="has-error"/>
+                                    <input type="number" step="any" class="form-control" th:field="*{amount}" th:errorclass="has-error"/>
                                     <span class="help-block" th:if="${#fields.hasErrors('amount')}">
                                         <ul>
                                             <li th:each="err : ${#fields.errors('amount')}" th:text="${err}"></li>
