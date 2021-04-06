@@ -12,6 +12,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -114,9 +115,10 @@ class RecipeControllerTest {
     @Test
     void testGetUpdateView() throws Exception {
         RecipeCommand command = new RecipeCommand();
-        command.setId("2");
+        command.setId("1");
 
         when(recipeService.findCommandById(anyString())).thenReturn(Mono.just(command));
+        when(categoryService.listAllCategories()).thenReturn(Flux.empty());
 
         mockMvc.perform(get("/recipe/1/update"))
                 .andExpect(status().isOk())
