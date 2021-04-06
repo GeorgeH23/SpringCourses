@@ -116,7 +116,7 @@ class RecipeControllerTest {
     @Test
     void testGetUpdateView() throws Exception {
         RecipeCommand command = new RecipeCommand();
-        command.setId("2");
+        command.setId("1");
 
         when(recipeService.findCommandById(anyString())).thenReturn(Mono.just(command));
 
