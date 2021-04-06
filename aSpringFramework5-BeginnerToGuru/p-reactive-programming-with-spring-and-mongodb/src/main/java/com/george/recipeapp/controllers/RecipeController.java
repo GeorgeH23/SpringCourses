@@ -48,7 +48,7 @@ public class RecipeController {
     @GetMapping("recipe/{id}/update")
     public String updateRecipe(@PathVariable String id, Model model){
         model.addAttribute(RECIPE_ATTRIBUTE, recipeService.findCommandById(id).block());
-        model.addAttribute("categoriesList", categoryService.listAllCategories());
+        model.addAttribute("categoriesList", categoryService.listAllCategories().collectList().block());
 
         return  RECIPE_RECIPE_FORM_URL;
     }
