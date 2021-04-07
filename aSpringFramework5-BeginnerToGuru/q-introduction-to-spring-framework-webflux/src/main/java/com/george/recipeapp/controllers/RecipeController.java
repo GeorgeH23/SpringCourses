@@ -1,14 +1,17 @@
 package com.george.recipeapp.controllers;
 
 import com.george.recipeapp.commands.RecipeCommand;
+import com.george.recipeapp.exceptions.RecipeNotFoundException;
 import com.george.recipeapp.services.CategoryService;
 import com.george.recipeapp.services.RecipeService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.thymeleaf.exceptions.TemplateInputException;
 
 import javax.validation.Valid;
 
@@ -82,16 +85,15 @@ public class RecipeController {
         return "redirect:/index";
     }
 
-    /*@ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(RecipeNotFoundException.class)
-    public ModelAndView handleNotFound(Exception exception) {
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler({RecipeNotFoundException.class, TemplateInputException.class})
+    public String handleNotFound(Exception exception, Model model){
+
         log.error("Handling not found exception");
         log.error(exception.getMessage());
 
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("404error");
-        modelAndView.addObject("exception", exception);
+        model.addAttribute("exception", exception);
 
-        return modelAndView;
-    }*/
+        return "404Error";
+    }
 }
