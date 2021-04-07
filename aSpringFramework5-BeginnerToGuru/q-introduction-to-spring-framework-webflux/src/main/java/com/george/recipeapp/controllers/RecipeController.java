@@ -1,5 +1,6 @@
 package com.george.recipeapp.controllers;
 
+import com.george.recipeapp.commands.CategoryCommand;
 import com.george.recipeapp.commands.RecipeCommand;
 import com.george.recipeapp.exceptions.RecipeNotFoundException;
 import com.george.recipeapp.services.CategoryService;
@@ -12,8 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.exceptions.TemplateInputException;
-
-import javax.validation.Valid;
+import reactor.core.publisher.Flux;
 
 @Controller
 @Slf4j
@@ -47,7 +47,6 @@ public class RecipeController {
     @GetMapping("recipe/new")
     public String newRecipe(Model model) {
         model.addAttribute(RECIPE_ATTRIBUTE, new RecipeCommand());
-        model.addAttribute("categoriesList", categoryService.listAllCategories());
 
         return RECIPE_RECIPE_FORM_URL;
     }
@@ -55,7 +54,6 @@ public class RecipeController {
     @GetMapping("recipe/{id}/update")
     public String updateRecipe(@PathVariable String id, Model model){
         model.addAttribute(RECIPE_ATTRIBUTE, recipeService.findCommandById(id));
-        model.addAttribute("categoriesList", categoryService.listAllCategories());
 
         return  RECIPE_RECIPE_FORM_URL;
     }
@@ -87,7 +85,7 @@ public class RecipeController {
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler({RecipeNotFoundException.class, TemplateInputException.class})
-    public String handleNotFound(Exception exception, Model model){
+    public String handleNotFound(Exception exception, Model model) {
 
         log.error("Handling not found exception");
         log.error(exception.getMessage());
@@ -95,5 +93,10 @@ public class RecipeController {
         model.addAttribute("exception", exception);
 
         return "404Error";
+    }
+
+    @ModelAttribute("categoriesList")
+    public Flux<CategoryCommand> populateCategoryList() {
+        return categoryService.listAllCategories();
     }
 }
