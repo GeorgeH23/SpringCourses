@@ -11,7 +11,11 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.net.URISyntaxException;
 import java.util.*;
 
 @Slf4j
@@ -202,6 +206,13 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
         guacRecipe.setUrl("http://www.simplyrecipes.com/recipes/perfect_guacamole/");
         guacRecipe.setSource("Simply Recipes");
 
+        try (FileInputStream is = new FileInputStream(new File(getClass().getResource("/static/images/guacamole400x400.jpg").toURI()))) {
+            guacRecipe.setImage(toObjects(is.readAllBytes()));
+        } catch (IOException | URISyntaxException e) {
+            e.printStackTrace();
+        }
+
+
         //add to return list
         recipes.add(guacRecipe);
 
@@ -263,8 +274,22 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
         tacosRecipe.setUrl("http://www.simplyrecipes.com/recipes/spicy_grilled_chicken_tacos/");
         tacosRecipe.setSource("Simply Recipes");
 
+        try (FileInputStream is = new FileInputStream(new File(getClass().getResource("/static/images/tacos400x400.jpg").toURI()))) {
+            tacosRecipe.setImage(toObjects(is.readAllBytes()));
+        } catch (IOException | URISyntaxException e) {
+            e.printStackTrace();
+        }
+
         recipes.add(tacosRecipe);
         return recipes;
+    }
+
+    private Byte[] toObjects(byte[] bytesPrim) {
+
+        Byte[] bytes = new Byte[bytesPrim.length];
+        int i = 0;
+        for (byte b : bytesPrim) bytes[i++] = b; //Autoboxing
+        return bytes;
     }
 
 }
