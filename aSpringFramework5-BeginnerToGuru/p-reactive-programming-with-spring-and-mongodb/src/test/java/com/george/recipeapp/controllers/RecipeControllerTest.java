@@ -73,6 +73,8 @@ class RecipeControllerTest {
     @Test
     void testGetNewRecipeForm() throws Exception {
 
+        when(categoryService.listAllCategories()).thenReturn(Flux.empty());
+
         mockMvc.perform(get("/recipe/new"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("recipe/recipeform"))
