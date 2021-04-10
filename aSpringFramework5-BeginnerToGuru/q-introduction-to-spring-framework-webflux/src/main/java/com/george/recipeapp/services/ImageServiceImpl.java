@@ -3,11 +3,11 @@ package com.george.recipeapp.services;
 import com.george.recipeapp.domain.Recipe;
 import com.george.recipeapp.repositories.reactive.RecipeReactiveRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.buffer.DataBuffer;
+import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import java.io.IOException;
 
 @Slf4j
 @Service
@@ -20,35 +20,23 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public Mono<Void> saveImageFile(String recipeId, MultipartFile file) {
+    public Mono<Void> saveImageFile(String recipeId, Flux<DataBuffer> data) {
+        Mono<byte[]> dataMono = DataBufferUtils.join(data)
+                .map(this::getBytes);
+        Mono<Recipe> recipeMono = recipeReactiveRepository.findById(recipeId);
 
-        log.debug("Received a file.");
+        return recipeMono.zipWith(dataMono, (recipe, bytes)-> {
+            recipe.setImage(bytes);
+            return recipe;
+        }).flatMap(recipeReactiveRepository::save)
+                .doOnNext(rec -> log.info("saved image for recipe {}", rec.getId()))
+                .doOnError(e -> log.error("error saving image for recipe{}", recipeId, e))
+                .then();
+    }
 
-        Mono<Recipe> recipeMono = recipeReactiveRepository.findById(recipeId)
-                .map(recipe -> {
-                    Byte[] byteObjects = new Byte[0];
-                    try {
-                        byteObjects = new Byte[file.getBytes().length];
-
-                        int i = 0;
-
-                        for (byte b : file.getBytes()) {
-                            byteObjects[i++] = b;
-                        }
-
-                        recipe.setImage(byteObjects);
-
-                        return recipe;
-
-                    } catch (IOException e) {
-                        log.error("Error occurred", e);
-                        e.printStackTrace();
-                        throw new RuntimeException(e);
-                    }
-                });
-
-        recipeReactiveRepository.save(recipeMono.block()).block();
-
-        return Mono.empty();
+    private byte[] getBytes(DataBuffer buffer) {
+        byte[] bytes = new byte[buffer.readableByteCount()];
+        buffer.read(bytes);
+        return bytes;
     }
 }

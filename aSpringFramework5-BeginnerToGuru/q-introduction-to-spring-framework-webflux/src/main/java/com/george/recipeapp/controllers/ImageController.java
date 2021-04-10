@@ -1,15 +1,20 @@
 package com.george.recipeapp.controllers;
 
+import com.george.recipeapp.commands.RecipeCommand;
 import com.george.recipeapp.services.ImageService;
 import com.george.recipeapp.services.RecipeService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
 
+@Slf4j
 @Controller
 public class ImageController {
 
@@ -21,37 +26,32 @@ public class ImageController {
         this.recipeService = recipeService;
     }
 
-    @GetMapping("recipe/{id}/image")
+    @GetMapping("/recipe/{id}/image")
     public String showUploadForm(@PathVariable String id, Model model) {
-
-        model.addAttribute("recipe", recipeService.findCommandById(id).toProcessor().block());
+        Mono<RecipeCommand> recipe = recipeService.findCommandById(id);
+        model.addAttribute("recipe", recipe);
 
         return "recipe/imageuploadform";
     }
 
     @PostMapping("recipe/{id}/image")
-    public String handleImagePost(@PathVariable String id, @RequestParam("imagefile") MultipartFile file) {
+    public Mono<String> handleImagePost(@PathVariable String id, @RequestPart("imagefile") FilePart file) {
 
-        imageService.saveImageFile(id, file).toProcessor().block();
-
-        return "redirect:/recipe/" + id + "/show";
+        log.info("handling file upload {}", file.filename());
+        return imageService.saveImageFile(id, file.content())
+                .thenReturn("redirect:/recipe/" + id + "/show");
     }
 
-    /*@GetMapping("recipe/{id}/recipeimage")
-    public void renderImageFromDB(@PathVariable String id, HttpServletResponse response) throws IOException {
-        RecipeCommand recipeCommand = recipeService.findCommandById(id).block();
-
-        if (recipeCommand.getImage() != null) {
-            byte[] byteArray = new byte[recipeCommand.getImage().length];
-            int i = 0;
-
-            for (Byte wrappedByte : recipeCommand.getImage()){
-                byteArray[i++] = wrappedByte; //auto unboxing
-            }
-
-            response.setContentType("image/jpeg");
-            InputStream is = new ByteArrayInputStream(byteArray);
-            IOUtils.copy(is, response.getOutputStream());
-        }
-    }*/
+    @GetMapping(value = "recipe/{id}/recipeimage")
+    public Mono<ResponseEntity<byte[]>> getRecipeImage(@PathVariable String id) {
+        return recipeService.findCommandById(id)
+                .flatMap(recipe -> Mono.justOrEmpty(recipe.getImage()))
+                .map(image -> {
+                    HttpHeaders headers = new HttpHeaders();
+                    headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+                    headers.setContentLength(image.length);
+                    return new ResponseEntity<>(image, headers, HttpStatus.OK);
+                })
+                .switchIfEmpty(Mono.defer(() -> Mono.just(new ResponseEntity<>(null, null, HttpStatus.NOT_FOUND))));
+    }
 }
