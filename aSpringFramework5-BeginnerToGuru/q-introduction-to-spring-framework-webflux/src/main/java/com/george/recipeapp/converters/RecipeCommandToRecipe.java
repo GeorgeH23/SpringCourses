@@ -1,11 +1,16 @@
 package com.george.recipeapp.converters;
 
 import com.george.recipeapp.commands.RecipeCommand;
+import com.george.recipeapp.domain.Category;
+import com.george.recipeapp.domain.Ingredient;
 import com.george.recipeapp.domain.Recipe;
-import lombok.Synchronized;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
+
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class RecipeCommandToRecipe implements Converter<RecipeCommand, Recipe> {
@@ -21,36 +26,36 @@ public class RecipeCommandToRecipe implements Converter<RecipeCommand, Recipe> {
         this.notesConverter = notesConverter;
     }
 
-    @Synchronized
     @Nullable
     @Override
     public Recipe convert(RecipeCommand source) {
         if (source == null) {
             return null;
         }
-
-        final Recipe recipe = new Recipe();
-        recipe.setId(source.getId());
-        recipe.setCookTime(source.getCookTime());
-        recipe.setPrepTime(source.getPrepTime());
+        Recipe recipe = new Recipe();
+        if (!StringUtils.isEmpty(source.getId())) {
+            recipe.setId(source.getId());
+        }
         recipe.setDescription(source.getDescription());
-        recipe.setDifficulty(source.getDifficulty());
-        recipe.setDirections(source.getDirections());
+        recipe.setPrepTime(source.getPrepTime());
+        recipe.setCookTime(source.getCookTime());
         recipe.setServings(source.getServings());
         recipe.setSource(source.getSource());
         recipe.setUrl(source.getUrl());
-        recipe.setImage(source.getImage());
+        recipe.setDirections(source.getDirections());
+        recipe.setDifficulty(source.getDifficulty());
         recipe.setNotes(notesConverter.convert(source.getNotes()));
+        recipe.setImage(source.getImage());
 
-        if (source.getCategories() != null && !source.getCategories().isEmpty()){
-            source.getCategories()
-                    .forEach( category -> recipe.getCategories().add(categoryConverter.convert(category)));
-        }
+        Set<Ingredient> ingredients = source.getIngredients().stream()
+                .map(ingredientConverter::convert)
+                .collect(Collectors.toSet());
+        recipe.setIngredients(ingredients);
 
-        if (source.getIngredients() != null && !source.getIngredients().isEmpty()){
-            source.getIngredients()
-                    .forEach(ingredient -> recipe.getIngredients().add(ingredientConverter.convert(ingredient)));
-        }
+        Set<Category> categories = source.getCategories().stream()
+                .map(categoryConverter::convert)
+                .collect(Collectors.toSet());
+        recipe.setCategories(categories);
 
         return recipe;
     }

@@ -1,12 +1,16 @@
 package com.george.recipeapp.converters;
 
+import com.george.recipeapp.commands.CategoryCommand;
+import com.george.recipeapp.commands.IngredientCommand;
 import com.george.recipeapp.commands.RecipeCommand;
-import com.george.recipeapp.domain.Category;
+import com.george.recipeapp.domain.Ingredient;
 import com.george.recipeapp.domain.Recipe;
-import lombok.Synchronized;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class RecipeToRecipeCommand implements Converter<Recipe, RecipeCommand> {
@@ -22,37 +26,42 @@ public class RecipeToRecipeCommand implements Converter<Recipe, RecipeCommand> {
         this.notesConverter = notesConverter;
     }
 
-    @Synchronized
     @Nullable
     @Override
     public RecipeCommand convert(Recipe source) {
         if (source == null) {
             return null;
         }
+        RecipeCommand recipe = new RecipeCommand();
+        recipe.setId(source.getId());
+        recipe.setDescription(source.getDescription());
+        recipe.setPrepTime(source.getPrepTime());
+        recipe.setCookTime(source.getCookTime());
+        recipe.setServings(source.getServings());
+        recipe.setSource(source.getSource());
+        recipe.setUrl(source.getUrl());
+        recipe.setDirections(source.getDirections());
+        recipe.setDifficulty(source.getDifficulty());
+        recipe.setNotes(notesConverter.convert(source.getNotes()));
+        recipe.setImage(source.getImage());
 
-        final RecipeCommand command = new RecipeCommand();
-        command.setId(source.getId());
-        command.setCookTime(source.getCookTime());
-        command.setPrepTime(source.getPrepTime());
-        command.setDescription(source.getDescription());
-        command.setDifficulty(source.getDifficulty());
-        command.setDirections(source.getDirections());
-        command.setServings(source.getServings());
-        command.setSource(source.getSource());
-        command.setUrl(source.getUrl());
-        command.setImage(source.getImage());
-        command.setNotes(notesConverter.convert(source.getNotes()));
+        List<IngredientCommand> ingredients = source.getIngredients().stream()
+                .map(i -> convertIngredient(i, source))
+                .collect(Collectors.toList());
+        recipe.setIngredients(ingredients);
 
-        if (source.getCategories() != null && !source.getCategories().isEmpty()){
-            source.getCategories()
-                    .forEach((Category category) -> command.getCategories().add(categoryConverter.convert(category)));
-        }
+        List<CategoryCommand> categories = source.getCategories().stream()
+                .map(categoryConverter::convert)
+                .collect(Collectors.toList());
+        recipe.setCategories(categories);
 
-        if (source.getIngredients() != null && !source.getIngredients().isEmpty()){
-            source.getIngredients()
-                    .forEach(ingredient -> command.getIngredients().add(ingredientConverter.convert(ingredient)));
-        }
+        return recipe;
 
+    }
+
+    private IngredientCommand convertIngredient(Ingredient ingredient, Recipe recipe) {
+        IngredientCommand command = ingredientConverter.convert(ingredient);
+        command.setRecipeId(recipe.getId());
         return command;
     }
 }

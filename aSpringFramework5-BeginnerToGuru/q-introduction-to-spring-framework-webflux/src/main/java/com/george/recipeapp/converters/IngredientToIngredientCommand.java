@@ -16,7 +16,6 @@ public class IngredientToIngredientCommand implements Converter<Ingredient, Ingr
         this.uomConverter = uomConverter;
     }
 
-    @Synchronized
     @Nullable
     @Override
     public IngredientCommand convert(Ingredient ingredient) {

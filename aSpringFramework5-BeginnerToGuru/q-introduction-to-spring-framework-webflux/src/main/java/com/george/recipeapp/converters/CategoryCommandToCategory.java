@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class CategoryCommandToCategory implements Converter<CategoryCommand, Category> {
 
-    @Synchronized
     @Nullable
     @Override
     public Category convert(CategoryCommand source) {
