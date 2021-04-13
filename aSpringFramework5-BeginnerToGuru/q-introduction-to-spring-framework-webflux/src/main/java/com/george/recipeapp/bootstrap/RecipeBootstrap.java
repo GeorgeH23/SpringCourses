@@ -5,10 +5,16 @@ import com.george.recipeapp.repositories.reactive.CategoryReactiveRepository;
 import com.george.recipeapp.repositories.reactive.RecipeReactiveRepository;
 import com.george.recipeapp.repositories.reactive.UnitOfMeasureReactiveRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.buffer.DataBuffer;
+import org.springframework.core.io.buffer.DataBufferUtils;
+import org.springframework.core.io.buffer.DefaultDataBufferFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.GetMapping;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -22,6 +28,12 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
     private final RecipeReactiveRepository recipeReactiveRepository;
     private final UnitOfMeasureReactiveRepository unitOfMeasureReactiveRepository;
     private final CategoryReactiveRepository categoryReactiveRepository;
+
+    @Value("classpath:/static/images/guacamole400x400.jpg")
+    private Resource guac_image;
+
+    @Value("classpath:/static/images/tacos400x400.jpg")
+    private Resource tacos_image;
 
     public RecipeBootstrap(RecipeReactiveRepository recipeReactiveRepository,
                            UnitOfMeasureReactiveRepository unitOfMeasureReactiveRepository,
@@ -150,6 +162,8 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
                 "Read more: http://www.simplyrecipes.com/recipes/perfect_recipe/#ixzz4jvoun5ws");
         recipe.setNotes(guacNotes);
 
+        recipe.setImage(serveResource(guac_image).toProcessor().block());
+
         return unitOfMeasureReactiveRepository.findAll()
                 .collectMap(UnitOfMeasure::getDescription, uom -> uom)
                 .map(units -> insertGuacamoleIngredients(recipe, units));
@@ -205,6 +219,8 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
                 "Grill the chicken, then let it rest while you warm the tortillas. Now you are ready to assemble the tacos and dig in. The whole meal comes together in about 30 minutes!\n");
         recipe.setNotes(notes);
 
+        recipe.setImage(serveResource(tacos_image).toProcessor().block());
+
         return unitOfMeasureReactiveRepository.findAll()
                 .collectMap(UnitOfMeasure::getDescription, uom -> uom)
                 .map(units -> addTacosIngredients(recipe, units));
@@ -238,6 +254,17 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
         recipe.addIngredient(new Ingredient("lime, cut into wedges", new BigDecimal(4), numberUom));
 
         return recipe;
+    }
+
+    public Mono<byte[]> serveResource(Resource resource) {
+        return DataBufferUtils.join(DataBufferUtils.read(resource, new DefaultDataBufferFactory(), 4096))
+                .map(this::getBytes);
+    }
+
+    private byte[] getBytes(DataBuffer buffer) {
+        byte[] bytes = new byte[buffer.readableByteCount()];
+        buffer.read(bytes);
+        return bytes;
     }
 
 }
