@@ -168,8 +168,15 @@
                         </div>
                         <div class="panel-body">
                             <div class="row">
-                                <div class="col-md-12 form-group">
-                                    <textarea class="form-control" rows="3" th:field="*{directions}"></textarea></div>
+                                <div class="col-md-12 form-group"
+                                     th:class="'col-md-12 form-group' + ${#fields.hasErrors('directions') ? 'col-md-3 form-group has-error' : 'col-md-3 form-group'}">
+                                    <textarea class="form-control" rows="3" th:field="*{directions}"></textarea>
+                                    <span class="help-block" th:if="${#fields.hasErrors('directions')}">
+                                        <ul>
+                                            <li th:each="err : ${#fields.errors('directions')}" th:text="${err}"></li>
+                                        </ul>
+                                </span>
+                                </div>
                             </div>
                         </div>
                     </div>

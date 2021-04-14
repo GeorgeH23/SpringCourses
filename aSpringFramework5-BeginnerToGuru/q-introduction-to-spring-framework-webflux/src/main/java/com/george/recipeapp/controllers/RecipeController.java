@@ -10,10 +10,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.WebExchangeBindException;
 import org.thymeleaf.exceptions.TemplateInputException;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+import javax.validation.Valid;
 
 @Controller
 @Slf4j
@@ -21,8 +24,6 @@ public class RecipeController {
 
     private final RecipeService recipeService;
     private final CategoryService categoryService;
-
-    private WebDataBinder webDataBinder;
 
     private static final String RECIPE_RECIPE_FORM_URL = "recipe/recipeform";
     private static final String RECIPE_ATTRIBUTE = "recipe";
@@ -32,16 +33,12 @@ public class RecipeController {
         this.categoryService = categoryService;
     }
 
-    @InitBinder
-    public void initBinder(WebDataBinder webDataBinder) {
-        this.webDataBinder = webDataBinder;
-    }
-
     @GetMapping("/recipe/{id}/show")
-    public String showById(@PathVariable String id, Model model) {
-        model.addAttribute(RECIPE_ATTRIBUTE, recipeService.findById(id).toProcessor());
-
-        return "recipe/show";
+    public Mono<String> showById(@PathVariable String id, Model model) {
+        return recipeService.findById(id)
+                .doOnNext(recipe -> model.addAttribute(RECIPE_ATTRIBUTE, recipe))
+                .map(rec -> "recipe/show")
+                .switchIfEmpty(Mono.error(new RecipeNotFoundException("recipe not found: " + id)));
     }
 
     @GetMapping("recipe/new")
@@ -59,36 +56,26 @@ public class RecipeController {
     }
 
     @PostMapping(RECIPE_ATTRIBUTE)
-    public String saveOrUpdate(@ModelAttribute(RECIPE_ATTRIBUTE) RecipeCommand command) {
+    public Mono<String> saveOrUpdate(@Valid @ModelAttribute(RECIPE_ATTRIBUTE) Mono<RecipeCommand> command) {
 
-        webDataBinder.validate();
-        BindingResult bindingResult = webDataBinder.getBindingResult();
-
-        if (bindingResult.hasErrors()) {
-            bindingResult.getAllErrors().forEach(objectError -> log.debug(objectError.toString()));
-
-            return RECIPE_RECIPE_FORM_URL;
-        }
-
-        RecipeCommand recipeCommand = recipeService.saveRecipeCommand(command).toProcessor().block();
-
-        return "redirect:/recipe/" + recipeCommand.getId() + "/show";
+        return command
+                .flatMap(recipeService::saveRecipeCommand)
+                .map(recipe -> "redirect:/recipe/" + recipe.getId() + "/show")
+                .doOnError(thr -> log.error("Error saving recipe"))
+                .onErrorResume(WebExchangeBindException.class, thr -> Mono.just(RECIPE_RECIPE_FORM_URL));
     }
 
     @GetMapping(value = "recipe/{id}/delete")
-    public String deleteById(@PathVariable String id) {
-        log.debug("Deleting id: " + id);
-
-        recipeService.deleteById(id);
-        return "redirect:/index";
+    public Mono<String> deleteById(@PathVariable String id) {
+        log.debug("Deleting recipe {}", id);
+        return recipeService.deleteById(id)
+                .thenReturn("redirect:/");
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler({RecipeNotFoundException.class, TemplateInputException.class})
     public String handleNotFound(Exception exception, Model model) {
-
-        log.error("Handling not found exception");
-        log.error(exception.getMessage());
+        log.error("Handling not found exception {}", exception.getMessage());
 
         model.addAttribute("exception", exception);
 

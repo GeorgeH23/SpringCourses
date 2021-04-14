@@ -14,7 +14,7 @@ import reactor.core.publisher.Mono;
 @Service
 public class RecipeServiceImpl implements RecipeService {
 
-    private final RecipeReactiveRepository recipeReactiveRepository;;
+    private final RecipeReactiveRepository recipeReactiveRepository;
     private final RecipeCommandToRecipe recipeCommandToRecipe;
     private final RecipeToRecipeCommand recipeToRecipeCommand;
 
@@ -32,12 +32,12 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public Mono<Recipe> findById(String id) {
-        return recipeReactiveRepository.findById(id);
+        return recipeReactiveRepository.findById(id)
+                .doOnError(thr -> log.warn("Error reading Recipe. ID value: {}", id, thr));
     }
 
     @Override
     public Mono<RecipeCommand> findCommandById(String id) {
-
         return recipeReactiveRepository.findById(id)
                 .map(recipe -> {
                     RecipeCommand recipeCommand = recipeToRecipeCommand.convert(recipe);
@@ -46,6 +46,10 @@ public class RecipeServiceImpl implements RecipeService {
 
                     return recipeCommand;
                 });
+
+        /*return findById(id)
+                .map(recipeToRecipeCommand::convert)
+                .doOnError(thr -> log.warn("Recipe Not Found. ID value: " + id));*/
     }
 
     @Override
@@ -58,8 +62,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public Mono<Void> deleteById(String idToDelete) {
-        recipeReactiveRepository.deleteById(idToDelete).toProcessor().block();
-
-        return Mono.empty();
+        return recipeReactiveRepository.deleteById(idToDelete)
+                .doOnSuccess(tmp -> log.info("Deleted recipe {}", idToDelete));
     }
 }

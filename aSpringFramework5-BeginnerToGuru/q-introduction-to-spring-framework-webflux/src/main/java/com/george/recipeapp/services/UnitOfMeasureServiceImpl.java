@@ -20,8 +20,7 @@ public class UnitOfMeasureServiceImpl implements UnitOfMeasureService {
     @Override
     public Flux<UnitOfMeasureCommand> listAllUoms() {
 
-        return unitOfMeasureReactiveRepository
-                .findAll()
+        return unitOfMeasureReactiveRepository.findAll()
                 .map(unitOfMeasureToUnitOfMeasureCommand::convert);
     }
 }

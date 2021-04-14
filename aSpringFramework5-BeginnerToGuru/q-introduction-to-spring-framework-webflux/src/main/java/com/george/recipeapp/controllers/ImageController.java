@@ -36,7 +36,6 @@ public class ImageController {
 
     @PostMapping("recipe/{id}/image")
     public Mono<String> handleImagePost(@PathVariable String id, @RequestPart("imagefile") FilePart file) {
-
         log.info("handling file upload {}", file.filename());
         return imageService.saveImageFile(id, file.content())
                 .thenReturn("redirect:/recipe/" + id + "/show");
