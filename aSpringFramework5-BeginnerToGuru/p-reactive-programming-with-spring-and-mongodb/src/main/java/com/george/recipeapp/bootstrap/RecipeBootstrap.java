@@ -206,12 +206,7 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
         guacRecipe.setUrl("http://www.simplyrecipes.com/recipes/perfect_guacamole/");
         guacRecipe.setSource("Simply Recipes");
 
-        try (FileInputStream is = new FileInputStream(new File(getClass().getResource("/static/images/guacamole400x400.jpg").toURI()))) {
-            guacRecipe.setImage(toObjects(is.readAllBytes()));
-        } catch (IOException | URISyntaxException e) {
-            e.printStackTrace();
-        }
-
+        setImage(guacRecipe, "/static/images/guacamole400x400.jpg");
 
         //add to return list
         recipes.add(guacRecipe);
@@ -274,18 +269,21 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
         tacosRecipe.setUrl("http://www.simplyrecipes.com/recipes/spicy_grilled_chicken_tacos/");
         tacosRecipe.setSource("Simply Recipes");
 
-        try (FileInputStream is = new FileInputStream(new File(getClass().getResource("/static/images/tacos400x400.jpg").toURI()))) {
-            tacosRecipe.setImage(toObjects(is.readAllBytes()));
-        } catch (IOException | URISyntaxException e) {
-            e.printStackTrace();
-        }
+        setImage(tacosRecipe, "/static/images/tacos400x400.jpg");
 
         recipes.add(tacosRecipe);
         return recipes;
     }
 
-    private Byte[] toObjects(byte[] bytesPrim) {
+    private void setImage(Recipe recipe, String imagePath) {
+        try (FileInputStream is = new FileInputStream(new File(getClass().getResource(imagePath).toURI()))) {
+            recipe.setImage(toObjects(is.readAllBytes()));
+        } catch (IOException | URISyntaxException e) {
+            e.printStackTrace();
+        }
+    }
 
+    private Byte[] toObjects(byte[] bytesPrim) {
         Byte[] bytes = new Byte[bytesPrim.length];
         int i = 0;
         for (byte b : bytesPrim) bytes[i++] = b; //Autoboxing

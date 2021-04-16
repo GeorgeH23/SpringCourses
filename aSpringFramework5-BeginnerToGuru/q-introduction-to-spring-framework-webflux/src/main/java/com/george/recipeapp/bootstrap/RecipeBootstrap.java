@@ -14,7 +14,6 @@ import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.core.io.buffer.DefaultDataBufferFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -142,7 +141,7 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
         recipe.setServings(3);
         recipe.setDifficulty(Difficulty.EASY);
         recipe.setSource("simplyrecipes");
-        recipe.setUrl("https://www.simplyrecipes.com/recipes/perfect_recipe/");
+        recipe.setUrl("http://www.simplyrecipes.com/recipes/perfect_guacamole/");
         recipe.setDirections("For a very quick guacamole just take a 1/4 cup of salsa and mix it in with your mashed avocados.\n" +
                 "Feel free to experiment! One classic Mexican guacamole has pomegranate seeds and chunks of peaches in it (a Diana Kennedy favorite). Try guacamole with added pineapple, mango, or strawberries.\n" +
                 "The simplest version of guacamole is just mashed avocados with salt. Don't let the lack of availability of other ingredients stop you from making guacamole.\n" +
@@ -197,7 +196,7 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
         recipe.setServings(5);
         recipe.setDifficulty(Difficulty.MODERATE);
         recipe.setSource("simplyrecipes");
-        recipe.setUrl("https://www.simplyrecipes.com/recipes/perfect_recipe/");
+        recipe.setUrl("http://www.simplyrecipes.com/recipes/spicy_grilled_chicken_tacos/");
         recipe.setDirections("1 Prepare a gas or charcoal grill for medium-high, direct heat.\n" +
                 "2 Make the marinade and coat the chicken: In a large bowl, stir together the chili powder, oregano, cumin, sugar, salt, garlic and orange zest. Stir in the orange juice and olive oil to make a loose paste. Add the chicken to the bowl and toss to coat all over.\n" +
                 "Set aside to marinate while the grill heats and you prepare the rest of the toppings.\n" +

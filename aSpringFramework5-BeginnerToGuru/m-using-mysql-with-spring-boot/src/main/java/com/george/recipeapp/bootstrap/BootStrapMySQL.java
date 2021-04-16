@@ -11,7 +11,11 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -214,6 +218,8 @@ public class BootStrapMySQL implements ApplicationListener<ContextRefreshedEvent
         guacRecipe.setUrl("http://www.simplyrecipes.com/recipes/perfect_guacamole/");
         guacRecipe.setSource("Simply Recipes");
 
+        setImage(guacRecipe, "/static/images/guacamole400x400.jpg");
+
         //add to return list
         recipes.add(guacRecipe);
 
@@ -275,7 +281,24 @@ public class BootStrapMySQL implements ApplicationListener<ContextRefreshedEvent
         tacosRecipe.setUrl("http://www.simplyrecipes.com/recipes/spicy_grilled_chicken_tacos/");
         tacosRecipe.setSource("Simply Recipes");
 
+        setImage(tacosRecipe, "/static/images/tacos400x400.jpg");
+
         recipes.add(tacosRecipe);
         return recipes;
+    }
+
+    private void setImage(Recipe recipe, String imagePath) {
+        try (FileInputStream is = new FileInputStream(new File(getClass().getResource(imagePath).toURI()))) {
+            recipe.setImage(toObjects(is.readAllBytes()));
+        } catch (IOException | URISyntaxException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private Byte[] toObjects(byte[] bytesPrim) {
+        Byte[] bytes = new Byte[bytesPrim.length];
+        int i = 0;
+        for (byte b : bytesPrim) bytes[i++] = b; //Autoboxing
+        return bytes;
     }
 }
