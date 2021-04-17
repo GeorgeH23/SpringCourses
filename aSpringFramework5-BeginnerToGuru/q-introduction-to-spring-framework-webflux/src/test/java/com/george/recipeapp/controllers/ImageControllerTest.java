@@ -4,101 +4,106 @@ import com.george.recipeapp.commands.RecipeCommand;
 import com.george.recipeapp.services.ImageService;
 import com.george.recipeapp.services.RecipeService;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfiguration;
+import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
+import org.springframework.http.MediaType;
+import org.springframework.http.client.MultipartBodyBuilder;
+import org.springframework.test.web.reactive.server.WebTestClient;
+import org.springframework.web.reactive.function.BodyInserters;
 import reactor.core.publisher.Mono;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@Disabled
+@WebFluxTest(controllers = ImageController.class)
+@Import(ThymeleafAutoConfiguration.class)
 class ImageControllerTest {
 
-    @Mock
-    ImageService imageService;
+    @Autowired
+    WebTestClient webTestClient;
 
-    @Mock
-    RecipeService recipeService;
-
-    ImageController imageController;
-
-    MockMvc mockMvc;
+    @MockBean
+    private ImageService imageService;
+    @MockBean
+    private RecipeService recipeService;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
 
-        imageController = new ImageController(imageService, recipeService);
-        mockMvc = MockMvcBuilders.standaloneSetup(imageController)
-                .setControllerAdvice(new ControllerExceptionHandler())
-                .build();
+        ImageController controller = new ImageController(imageService, recipeService);
     }
 
     @Test
-    void getImageForm() throws Exception {
-        //given
-        RecipeCommand recipeCommand = new RecipeCommand();
-        recipeCommand.setId("1");
+    void testImageForm() {
+        // given
+        String recipeId = "42";
+        RecipeCommand recipe = new RecipeCommand();
+        recipe.setId(recipeId);
+        when(recipeService.findCommandById(recipeId)).thenReturn(Mono.just(recipe));
 
-        when(recipeService.findCommandById(anyString())).thenReturn(Mono.just(recipeCommand));
-
-        //when
-        mockMvc.perform(get("/recipe/1/image"))
-                .andExpect(status().isOk())
-                .andExpect(model().attributeExists("recipe"));
-
-        verify(recipeService, times(1)).findCommandById(anyString());
+        // when
+        webTestClient.get()
+                .uri("/recipe/42/image")
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(String.class)
+                .value(body -> {
+                    assertThat(body.toLowerCase(), containsString("upload"));
+                    assertThat(body, containsString("/recipe/42/image"));
+                });
     }
 
     @Test
-    void handleImagePost() throws Exception {
-        MockMultipartFile multipartFile = new MockMultipartFile("imagefile", "testing.txt", "text/plain", "Spring Guru".getBytes());
+    void handleImagePost() {
+        // given
+        when(imageService.saveImageFile(eq("1"), any())).thenReturn(Mono.empty());
 
-        when(imageService.saveImageFile(anyString(), any())).thenReturn(Mono.empty());
+        byte[] fakeImage = "Spring Framework Guru".getBytes();
+        MultipartBodyBuilder multipartBodyBuilder = new MultipartBodyBuilder();
+        multipartBodyBuilder.part("imagefile", fakeImage, MediaType.APPLICATION_OCTET_STREAM)
+                .header("Content-Disposition", "form-data; name=imagefile; filename=image.jpg");
 
-        mockMvc.perform(multipart("/recipe/1/image").file(multipartFile))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(header().string("Location", "/recipe/1/show"));
-
-        verify(imageService, times(1)).saveImageFile(anyString(), any());
+        webTestClient.post()
+                .uri("/recipe/1/image")
+                .contentType(MediaType.MULTIPART_FORM_DATA)
+                .body(BodyInserters.fromMultipartData(multipartBodyBuilder.build()))
+                .exchange()
+                .expectStatus().is3xxRedirection()
+                .expectHeader().valueEquals("Location", "/recipe/1/show");
+        verify(imageService).saveImageFile(eq("1"), any());
     }
 
-    /*@Test
-    void renderImageFromDB() throws Exception {
+    @Test
+    void readImageFromRepository() {
 
-        //given
+        // given
+        String recipeId = "6";
+        byte[] content = "some content".getBytes();
         RecipeCommand command = new RecipeCommand();
-        command.setId("1");
+        command.setId(recipeId);
+        command.setImage(content);
 
-        String s = "fake image text";
-        Byte[] bytesBoxed = new Byte[s.getBytes().length];
+        when(recipeService.findCommandById(recipeId)).thenReturn(Mono.just(command));
 
-        int i = 0;
+        // when
+        webTestClient.get()
+                .uri("/recipe/" + recipeId + "/recipeimage")
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(byte[].class)
+                .value(body -> {
+                    assertThat(body.length, is(content.length));
+                });
+    }
 
-        for (byte primByte : s.getBytes()){
-            bytesBoxed[i++] = primByte;
-        }
-
-        command.setImage(bytesBoxed);
-
-        when(recipeService.findCommandById(anyString())).thenReturn(Mono.just(command));
-
-        //when
-        MockHttpServletResponse response = mockMvc.perform(get("/recipe/1/recipeimage"))
-                .andExpect(status().isOk())
-                .andReturn().getResponse();
-
-        byte[] responseBytes = response.getContentAsByteArray();
-
-        assertEquals(s.getBytes().length, responseBytes.length);
-    }*/
 }
 
 
