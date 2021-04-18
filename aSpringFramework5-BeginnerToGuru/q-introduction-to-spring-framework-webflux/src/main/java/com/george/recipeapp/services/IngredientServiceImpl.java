@@ -10,6 +10,7 @@ import com.george.recipeapp.repositories.reactive.RecipeReactiveRepository;
 import com.george.recipeapp.repositories.reactive.UnitOfMeasureReactiveRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
 import java.util.Optional;
@@ -46,6 +47,7 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     @Override
+    @Transactional
     public Mono<IngredientCommand> saveIngredientCommand(IngredientCommand command) {
         Recipe recipe = recipeReactiveRepository.findById(command.getRecipeId())
                 .switchIfEmpty(Mono.error(new RuntimeException("Recipe not found: " + command.getRecipeId())))
