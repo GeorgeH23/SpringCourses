@@ -1,7 +1,6 @@
 package com.george.recipeapp.repositories;
 
 import com.george.recipeapp.bootstrap.RecipeBootstrap;
-import com.george.recipeapp.domain.UnitOfMeasure;
 import com.george.recipeapp.repositories.reactive.CategoryReactiveRepository;
 import com.george.recipeapp.repositories.reactive.RecipeReactiveRepository;
 import com.george.recipeapp.repositories.reactive.UnitOfMeasureReactiveRepository;
@@ -11,11 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import reactor.test.StepVerifier;
 
-import java.util.Optional;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataMongoTest
 class UnitOfMeasureRepositoryIT {

@@ -2,7 +2,6 @@ package com.george.recipeapp.converters;
 
 import com.george.recipeapp.commands.IngredientCommand;
 import com.george.recipeapp.domain.Ingredient;
-import lombok.Synchronized;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
