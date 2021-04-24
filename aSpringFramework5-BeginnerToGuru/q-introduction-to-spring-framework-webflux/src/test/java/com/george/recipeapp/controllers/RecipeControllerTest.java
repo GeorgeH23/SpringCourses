@@ -13,7 +13,9 @@ import org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfigurati
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import org.springframework.web.reactive.function.BodyInserters;
 import reactor.core.publisher.Mono;
 
 import static org.hamcrest.CoreMatchers.containsString;
@@ -78,30 +80,42 @@ class RecipeControllerTest {
 
     @Test
     void testGetNewRecipeForm() {
-        RecipeCommand recipe = new RecipeCommand();
-        recipe.setId("1");
 
-//        mockMvc.perform(get("/recipe/new"))
-//                .andExpect(status().isOk())
-//                .andExpect(view().name("recipe/recipeform"))
-//                .andExpect(model().attributeExists("recipe"));
+        webTestClient.get()
+                .uri("/recipe/new")
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(String.class)
+                .value(body -> {
+                    assertThat(body, containsString("Recipe Form"));
+                    assertThat(body, containsString("Edit Recipe Information"));
+                });
     }
 
     @Test
     void testPostNewRecipe() {
+        String recipeId = "51234";
         RecipeCommand command = new RecipeCommand();
-        command.setId("5");
+        command.setId(recipeId);
 
         when(recipeService.saveRecipeCommand(any())).thenReturn(Mono.just(command));
 
-//        mockMvc.perform(post("/recipe")
-//                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-//                .param("id", "")
-//                .param("description", "a description")
-//                .param("directions", "some direction")
-//        )
-//                .andExpect(status().is3xxRedirection())
-//                .andExpect(view().name("redirect:/recipe/5/show"));
+        webTestClient.post()
+                .uri("/recipe")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .body(BodyInserters.
+                        fromFormData("id", "")
+                        .with("description", "new recipe description")
+                        .with("prepTime", "5")
+                        .with("cookTime", "5")
+                        .with("servings", "1")
+                        .with("directions", "recipe directions")
+                        .with("source", "grandma's cookies")
+                        .with("url", "http://localhost:8080/recipe/new"))
+                .exchange()
+                .expectStatus().is3xxRedirection()
+                .expectHeader()
+                .valueEquals("Location", "/recipe/" + recipeId + "/show");
     }
 
     @Test
