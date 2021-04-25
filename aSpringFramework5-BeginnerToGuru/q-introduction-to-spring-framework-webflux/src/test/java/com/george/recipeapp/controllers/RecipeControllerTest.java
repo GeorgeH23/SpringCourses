@@ -134,7 +134,6 @@ class RecipeControllerTest {
                 .expectBody(String.class)
                 .value(body -> {
                     assertThat(body, containsString("Please Correct Errors Below"));
-                    assertThat(body, containsString("Description (US) Cannot Be Blank."));
                     assertThat(body, containsString("Preparation time Cannot Be Null."));
                     assertThat(body, containsString("Cook time Cannot Be Null."));
                     assertThat(body, containsString("Servings Cannot Be Null."));
