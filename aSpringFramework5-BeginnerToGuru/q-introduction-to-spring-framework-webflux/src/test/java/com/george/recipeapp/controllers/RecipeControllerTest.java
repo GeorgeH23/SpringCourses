@@ -125,13 +125,23 @@ class RecipeControllerTest {
 
         when(recipeService.saveRecipeCommand(any())).thenReturn(Mono.just(command));
 
-//        mockMvc.perform(post("/recipe")
-//                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-//                .param("id", "")
-//        )
-//                .andExpect(status().isOk())
-//                .andExpect(model().attributeExists("recipe"))
-//                .andExpect(view().name("recipe/recipeform"));
+        webTestClient.post()
+                .uri("/recipe")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .body(BodyInserters.fromFormData("id", ""))
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(String.class)
+                .value(body -> {
+                    assertThat(body, containsString("Please Correct Errors Below"));
+                    assertThat(body, containsString("Description (US) Cannot Be Blank."));
+                    assertThat(body, containsString("Preparation time Cannot Be Null."));
+                    assertThat(body, containsString("Cook time Cannot Be Null."));
+                    assertThat(body, containsString("Servings Cannot Be Null."));
+                    assertThat(body, containsString("Recipe source Cannot Be Blank."));
+                    assertThat(body, containsString("Directions Cannot Be Blank."));
+                    assertThat(body, containsString("Edit Recipe Information"));
+                });
     }
 
     @Test
@@ -141,10 +151,14 @@ class RecipeControllerTest {
 
         when(recipeService.findCommandById(anyString())).thenReturn(Mono.just(recipe));
 
-//        mockMvc.perform(get("/recipe/1/update"))
-//                .andExpect(status().isOk())
-//                .andExpect(view().name("recipe/recipeform"))
-//                .andExpect(model().attributeExists("recipe"));
+        webTestClient.get()
+                .uri("/recipe/7/update")
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(String.class)
+                .value(body -> {
+                    assertThat(body, containsString("Edit Recipe Information"));
+                });
     }
 
     @Test
