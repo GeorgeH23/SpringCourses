@@ -1,6 +1,7 @@
 package com.george.restapp.service;
 
 import com.george.restapp.api.domain.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -9,7 +10,8 @@ import java.util.List;
 @Service
 public class ApiServiceImpl implements ApiService {
 
-    private final RestTemplate restTemplate;
+    @Autowired
+    private RestTemplate restTemplate;
 
     public ApiServiceImpl(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;

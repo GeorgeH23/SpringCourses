@@ -31,6 +31,7 @@ class ImageControllerTest {
 
     @MockBean
     private ImageService imageService;
+
     @MockBean
     private RecipeService recipeService;
 
