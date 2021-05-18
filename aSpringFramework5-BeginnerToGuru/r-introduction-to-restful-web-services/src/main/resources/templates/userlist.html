@@ -17,8 +17,6 @@
             crossorigin="anonymous" th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
 </head>
 <body>
-<!--/*@thymesVar id="users" type="java.util.List"*/-->
-<!--/*@thymesVar id="user" type="guru.springframework.api.domain.User"*/-->
 <div class="container-fluid" style="margin-top: 20px">
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
@@ -32,12 +30,14 @@
                         <table class="table table-hover ">
                             <thead class="thead-inverse">
                             <tr>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Gender</th>
+                                <th>Id</th>
+                                <th>Name</th>
+                                <th>Username</th>
                                 <th>Email</th>
-                                <th>Language</th>
+                                <th>Address</th>
                                 <th>Phone</th>
+                                <th>Website</th>
+                                <th>Company</th>
                             </tr>
                             </thead>
                             <tr th:remove="all">
@@ -57,12 +57,15 @@
                                 <td>132-123-1234</td>
                             </tr>
                             <tr th:each="user : ${users}">
-                                <td th:text="${user.name.first}">Joe</td>
-                                <td th:text="${user.name.last}">Buck</td>
-                                <td th:text="${user.gender}">Male</td>
-                                <td th:text="${user.email}">foo@example.com</td>
-                                <td th:text="${user.language}">English</td>
-                                <td th:text="${user.phone}">132-123-1234</td>
+                                <td th:text="${user.id}">1</td>
+                                <td th:text="${user.name}">Joe</td>
+                                <td th:text="${user.username}">Joe_23</td>
+                                <td th:text="${user.email}">Joe_Smith@yahoo.com</td>
+                                <td th:text="${user.address.suite} + ', ' + ${user.address.street} + ', ' +
+                                    ${user.address.city} + ', ' + ${user.address.zipcode}">32, The Square, 617470</td>
+                                <td th:text="${user.phone}">0265679532</td>
+                                <td th:text="${user.website}">joensens.org</td>
+                                <td th:text="${user.company.name} + ', ' + ${user.company.catchPhrase} + ', ' + ${user.company.bs}">joensens.org</td>
                             </tr>
                         </table>
                     </div>

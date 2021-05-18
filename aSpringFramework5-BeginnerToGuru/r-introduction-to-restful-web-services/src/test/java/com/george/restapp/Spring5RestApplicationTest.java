@@ -7,7 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 class Spring5RestApplicationTest {
 
     @Test
-    public void contextLoads() {
+    void contextLoads() {
     }
 
 }

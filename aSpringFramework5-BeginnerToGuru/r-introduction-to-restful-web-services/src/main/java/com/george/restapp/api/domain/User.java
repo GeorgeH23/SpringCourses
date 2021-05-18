@@ -1,47 +1,42 @@
 package com.george.restapp.api.domain;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
 
 public class User implements Serializable {
 
     private static final  long serialVersionUID = 270727596527329664L;
 
-    private String gender;
-    private Name name;
-    private Location location;
-    private String email;
-    private Login login;
-    private String phone;
-    private Job job;
-    private Billing billing;
-    private String language;
-    private String currency;
-    private final Map<String, Object> additionalProperties = new HashMap<>();
+    public int id;
+    public String name;
+    public String username;
+    public String email;
+    public Address address;
+    public String phone;
+    public String website;
+    public Company company;
 
-    public String getGender() {
-        return gender;
+    public int getId() {
+        return id;
     }
 
-    public void setGender(String gender) {
-        this.gender = gender;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public Name getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(Name name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public Location getLocation() {
-        return location;
+    public String getUsername() {
+        return username;
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getEmail() {
@@ -52,12 +47,12 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public Login getLogin() {
-        return login;
+    public Address getAddress() {
+        return address;
     }
 
-    public void setLogin(Login login) {
-        this.login = login;
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     public String getPhone() {
@@ -68,43 +63,19 @@ public class User implements Serializable {
         this.phone = phone;
     }
 
-    public Job getJob() {
-        return job;
+    public String getWebsite() {
+        return website;
     }
 
-    public void setJob(Job job) {
-        this.job = job;
+    public void setWebsite(String website) {
+        this.website = website;
     }
 
-    public Billing getBilling() {
-        return billing;
+    public Company getCompany() {
+        return company;
     }
 
-    public void setBilling(Billing billing) {
-        this.billing = billing;
-    }
-
-    public String getLanguage() {
-        return language;
-    }
-
-    public void setLanguage(String language) {
-        this.language = language;
-    }
-
-    public String getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(String currency) {
-        this.currency = currency;
-    }
-
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
+    public void setCompany(Company company) {
+        this.company = company;
     }
 }

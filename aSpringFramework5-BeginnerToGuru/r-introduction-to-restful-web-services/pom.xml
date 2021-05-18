@@ -23,6 +23,10 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>11</java.version>
+        <!--need snapshot version-->
+        <!--https://github.com/spring-projects/spring-boot/issues/10319-->
+        <thymeleaf.version>3.0.12.RELEASE</thymeleaf.version>
+        <thymeleaf-spring5.version>3.0.12.RELEASE</thymeleaf-spring5.version>
     </properties>
 
     <dependencies>
@@ -34,16 +38,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webflux</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-webmvc</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
