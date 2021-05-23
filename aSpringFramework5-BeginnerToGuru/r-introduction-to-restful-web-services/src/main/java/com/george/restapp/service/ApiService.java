@@ -1,10 +1,9 @@
 package com.george.restapp.service;
 
 import com.george.restapp.api.domain.User;
-
-import java.util.List;
+import reactor.core.publisher.Flux;
 
 public interface ApiService {
 
-    List<User> getUsers(Integer limit);
+    Flux<User> getUsers(Integer limit);
 }

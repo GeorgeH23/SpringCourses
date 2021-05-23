@@ -6,8 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.List;
+import reactor.core.publisher.Flux;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -26,8 +25,8 @@ class ApiServiceImplTest {
     @Test
     void testGetUsers() {
 
-        List<User> users = apiService.getUsers(3);
+        Flux<User> users = apiService.getUsers(3);
 
-        assertEquals(3, users.size());
+        assertEquals(3, users.collectList().block().size());
     }
 }

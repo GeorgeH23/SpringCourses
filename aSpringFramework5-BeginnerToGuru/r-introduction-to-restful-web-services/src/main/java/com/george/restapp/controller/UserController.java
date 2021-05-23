@@ -31,10 +31,9 @@ public class UserController {
         return serverWebExchange.getFormData()
                 .map(formData -> {
                     Integer limit = Integer.parseInt(formData.get("limit").get(0));
-                     model.addAttribute("users", apiService.getUsers(limit));
-                     return "userlist"; })
+                    model.addAttribute("users", apiService.getUsers(limit));
+                    return "userlist"; })
                 .doOnError(thr -> log.error("Error handling request"))
                 .onErrorResume(WebExchangeBindException.class, thr -> Mono.just("/index"));
-
     }
 }
