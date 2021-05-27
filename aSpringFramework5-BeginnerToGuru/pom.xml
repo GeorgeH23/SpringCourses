@@ -27,6 +27,7 @@
         <module>p-reactive-programming-with-spring-and-mongodb</module>
         <module>q-introduction-to-spring-framework-webflux</module>
         <module>r-introduction-to-restful-web-services</module>
+        <module>s-restful-web-services-with-spring-mvc</module>
     </modules>
 
     <artifactId>aSpringFramework5-BeginnerToGuru</artifactId>
