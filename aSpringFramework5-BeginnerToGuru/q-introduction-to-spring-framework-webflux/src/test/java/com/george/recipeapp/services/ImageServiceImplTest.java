@@ -2,7 +2,6 @@ package com.george.recipeapp.services;
 
 import com.george.recipeapp.domain.Recipe;
 import com.george.recipeapp.repositories.reactive.RecipeReactiveRepository;
-import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -16,6 +15,7 @@ import reactor.core.publisher.Mono;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 class ImageServiceImplTest {
@@ -52,6 +52,6 @@ class ImageServiceImplTest {
         ArgumentCaptor<Recipe> recipeCaptor = ArgumentCaptor.forClass(Recipe.class);
         verify(recipeReactiveRepository).save(recipeCaptor.capture());
         Recipe savedRecipe = recipeCaptor.getValue();
-        Assert.assertEquals(bytes.length, savedRecipe.getImage().length);
+        assertEquals(bytes.length, savedRecipe.getImage().length);
     }
 }

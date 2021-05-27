@@ -5,12 +5,13 @@ import com.george.recipeapp.converters.RecipeCommandToRecipe;
 import com.george.recipeapp.converters.RecipeToRecipeCommand;
 import com.george.recipeapp.domain.Recipe;
 import com.george.recipeapp.repositories.reactive.RecipeReactiveRepository;
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Objects;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 class RecipeServiceIT {
@@ -40,8 +41,8 @@ class RecipeServiceIT {
         RecipeCommand savedCommand = recipeService.saveRecipeCommand(testCommand).block();
 
         // then
-        Assert.assertEquals(testDescription, Objects.requireNonNull(savedCommand).getDescription());
-        Assert.assertEquals(testCommand.getCategories().size(), savedCommand.getCategories().size());
-        Assert.assertEquals(testCommand.getIngredients().size(), savedCommand.getIngredients().size());
+        assertEquals(testDescription, Objects.requireNonNull(savedCommand).getDescription());
+        assertEquals(testCommand.getCategories().size(), savedCommand.getCategories().size());
+        assertEquals(testCommand.getIngredients().size(), savedCommand.getIngredients().size());
     }
 }

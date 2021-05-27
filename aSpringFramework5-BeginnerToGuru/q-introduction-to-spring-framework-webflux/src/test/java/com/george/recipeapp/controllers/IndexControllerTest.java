@@ -2,7 +2,6 @@ package com.george.recipeapp.controllers;
 
 import com.george.recipeapp.domain.Recipe;
 import com.george.recipeapp.services.RecipeService;
-import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -94,7 +93,7 @@ class IndexControllerTest {
         String templateName = controller.getIndexPage(model);
 
         // then
-        Assert.assertEquals("index", templateName);
+        assertEquals("index", templateName);
         verify(recipeService, times(1)).getRecipes();
         verify(model, times(1)).addAttribute(eq("recipes"), argCaptor.capture());
         List<Recipe> modelRecipes = argCaptor.getValue().collectList().block();

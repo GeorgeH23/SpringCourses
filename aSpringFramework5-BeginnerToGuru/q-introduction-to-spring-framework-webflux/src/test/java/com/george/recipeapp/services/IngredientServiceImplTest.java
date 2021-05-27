@@ -11,7 +11,6 @@ import com.george.recipeapp.domain.Recipe;
 import com.george.recipeapp.domain.UnitOfMeasure;
 import com.george.recipeapp.repositories.reactive.RecipeReactiveRepository;
 import com.george.recipeapp.repositories.reactive.UnitOfMeasureReactiveRepository;
-import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -143,7 +142,7 @@ class IngredientServiceImplTest {
         IngredientCommand savedCommand = ingredientService.saveIngredientCommand(command).block();
 
         // then
-        Assert.assertEquals(ingredientId, savedCommand.getId());
+        assertEquals(ingredientId, savedCommand.getId());
         verify(recipeReactiveRepository).findById(recipeId);
         verify(recipeReactiveRepository).save(any(Recipe.class));
     }
