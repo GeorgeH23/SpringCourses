@@ -34,7 +34,7 @@ class CategoryServiceImplTest {
     }
 
     @Test
-    void getAllCategories() throws Exception {
+    void getAllCategories() {
 
         //given
         List<Category> categories = Arrays.asList(new Category(), new Category(), new Category());
@@ -50,7 +50,7 @@ class CategoryServiceImplTest {
     }
 
     @Test
-    void getCategoryByName() throws Exception {
+    void getCategoryByName() {
 
         //given
         Category category = new Category();

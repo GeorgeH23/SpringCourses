@@ -11,7 +11,7 @@ class CustomerMapperTest {
     public static final String FIRST_NAME = "John";
     public static final String LAST_NAME = "Doe";
     public static final String URL = "John_Doe.com";
-    public static final long ID = 1L;
+    public static final Long ID = 1L;
     CustomerMapper customerMapper = CustomerMapper.INSTANCE;
 
     @Test
@@ -27,9 +27,9 @@ class CustomerMapperTest {
         CustomerDTO customerDTO = customerMapper.customerToCustomerDTO(customer);
 
         //then
-        assertEquals(Long.valueOf(ID), customerDTO.getId());
+        assertEquals(ID, customerDTO.getId());
         assertEquals(FIRST_NAME, customerDTO.getFirstName());
         assertEquals(LAST_NAME, customerDTO.getLastName());
-        assertEquals(ID, customerDTO.getId());
+        assertEquals(URL, customerDTO.getCustomerUrl());
     }
 }
