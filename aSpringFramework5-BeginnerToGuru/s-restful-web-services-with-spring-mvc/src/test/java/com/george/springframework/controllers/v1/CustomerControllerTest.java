@@ -16,7 +16,7 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -84,7 +84,25 @@ class CustomerControllerTest {
 
         when(customerService.getCustomerByName(anyString())).thenReturn(customer1);
 
-        mockMvc.perform(get("/api/v1/customers/John")
+        mockMvc.perform(get("/api/v1/customers/name/John")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.firstName", equalTo(FIRST_NAME_C1)))
+                .andExpect(jsonPath("$.lastName", equalTo(LAST_NAME_C1)))
+                .andExpect(jsonPath("$.customerUrl", equalTo(URL_C1)));
+    }
+
+    @Test
+    void testGetCustomerById() throws Exception {
+        CustomerDTO customer1 = new CustomerDTO();
+        customer1.setId(ID_C1);
+        customer1.setFirstName(FIRST_NAME_C1);
+        customer1.setLastName(LAST_NAME_C1);
+        customer1.setCustomerUrl(URL_C1);
+
+        when(customerService.getCustomerById(anyLong())).thenReturn(customer1);
+
+        mockMvc.perform(get("/api/v1/customers/id/2")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.firstName", equalTo(FIRST_NAME_C1)))
