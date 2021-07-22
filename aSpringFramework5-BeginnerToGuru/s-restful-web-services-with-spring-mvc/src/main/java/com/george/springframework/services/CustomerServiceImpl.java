@@ -2,6 +2,7 @@ package com.george.springframework.services;
 
 import com.george.springframework.api.v1.mapper.CustomerMapper;
 import com.george.springframework.api.v1.model.CustomerDTO;
+import com.george.springframework.domain.Customer;
 import com.george.springframework.repositories.CustomerRepository;
 import org.springframework.stereotype.Service;
 
@@ -41,5 +42,15 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerDTO getCustomerByName(String name) {
 
         return customerMapper.customerToCustomerDTO(customerRepository.findByLastName(name));
+    }
+
+    @Override
+    public CustomerDTO createNewCustomer(CustomerDTO customerDTO) {
+
+        Customer customer = customerMapper.customerDTOToCustomer(customerDTO);
+        Customer savedCustomer = customerRepository.save(customer);
+        CustomerDTO returnDto = customerMapper.customerToCustomerDTO(savedCustomer);
+
+        return returnDto;
     }
 }
