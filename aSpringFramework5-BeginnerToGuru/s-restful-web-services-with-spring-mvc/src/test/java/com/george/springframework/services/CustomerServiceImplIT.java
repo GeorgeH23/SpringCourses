@@ -66,6 +66,31 @@ class CustomerServiceImplIT {
         assertThat(originalLastName, equalTo(updatedCustomer.getLastName()));
     }
 
+    @Test
+    void patchCustomerUpdateLastName() {
+        String updatedName = "UpdatedName";
+        long id = getCustomerIdValue();
+
+        Customer originalCustomer = customerRepository.getOne(id);
+        assertNotNull(originalCustomer);
+
+        //save original first/last name
+        String originalFirstName = originalCustomer.getFirstName();
+        String originalLastName = originalCustomer.getLastName();
+
+        CustomerDTO customerDTO = new CustomerDTO();
+        customerDTO.setLastName(updatedName);
+
+        customerService.patchCustomer(id, customerDTO);
+
+        Customer updatedCustomer = customerRepository.findById(id).get();
+
+        assertNotNull(updatedCustomer);
+        assertEquals(updatedName, updatedCustomer.getLastName());
+        assertThat(originalFirstName, equalTo(updatedCustomer.getFirstName()));
+        assertThat(originalLastName, not(equalTo(updatedCustomer.getLastName())));
+    }
+
     private Long getCustomerIdValue() {
         List<Customer> customers = customerRepository.findAll();
         System.out.println("Customers Found: " + customers.size());

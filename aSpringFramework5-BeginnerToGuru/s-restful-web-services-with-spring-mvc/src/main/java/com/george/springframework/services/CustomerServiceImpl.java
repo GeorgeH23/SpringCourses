@@ -75,7 +75,6 @@ public class CustomerServiceImpl implements CustomerService {
             if (customerDTO.getFirstName() != null) {
                 customer.setFirstName(customerDTO.getFirstName());
             }
-
             if (customerDTO.getLastName() != null) {
                 customer.setLastName(customerDTO.getLastName());
             }
