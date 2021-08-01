@@ -163,6 +163,29 @@ class CustomerControllerTest {
                 .andExpect(jsonPath("$.lastName", equalTo("Flintstone")))
                 .andExpect(jsonPath("$.customerUrl", equalTo("/api/v1/customers/id/1")));
     }
+
+    @Test
+    void testPatchCustomer() throws Exception {
+        //given
+        CustomerDTO customer = new CustomerDTO();
+        customer.setFirstName("Tom");
+
+        CustomerDTO returnDTO = new CustomerDTO();
+        returnDTO.setFirstName(customer.getFirstName());
+        returnDTO.setLastName("Holland");
+        returnDTO.setCustomerUrl("/api/v1/customers/id/1");
+
+        when(customerService.patchCustomer(anyLong(), any(CustomerDTO.class))).thenReturn(returnDTO);
+
+        //when/then
+        mockMvc.perform(patch("/api/v1/customers/id/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(customer)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.firstName", equalTo("Tom")))
+                .andExpect(jsonPath("$.lastName", equalTo("Holland")))
+                .andExpect(jsonPath("$.customerUrl", equalTo("/api/v1/customers/id/1")));
+    }
 }
 
 
