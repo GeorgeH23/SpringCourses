@@ -18,6 +18,7 @@ import static com.george.springframework.controllers.v1.AbstractRestControllerTe
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -185,6 +186,15 @@ class CustomerControllerTest {
                 .andExpect(jsonPath("$.firstName", equalTo("Tom")))
                 .andExpect(jsonPath("$.lastName", equalTo("Holland")))
                 .andExpect(jsonPath("$.customerUrl", equalTo("/api/v1/customers/id/1")));
+    }
+
+    @Test
+    void testDeleteCustomer() throws Exception {
+        mockMvc.perform(delete("/api/v1/customers/id/1")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        verify(customerService).deleteCustomerById(anyLong());
     }
 }
 
