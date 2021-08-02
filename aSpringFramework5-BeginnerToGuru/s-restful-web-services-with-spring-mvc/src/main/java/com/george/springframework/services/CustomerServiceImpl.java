@@ -2,6 +2,7 @@ package com.george.springframework.services;
 
 import com.george.springframework.api.v1.mapper.CustomerMapper;
 import com.george.springframework.api.v1.model.CustomerDTO;
+import com.george.springframework.controllers.v1.CustomerController;
 import com.george.springframework.domain.Customer;
 import com.george.springframework.repositories.CustomerRepository;
 import org.springframework.stereotype.Service;
@@ -59,14 +60,6 @@ public class CustomerServiceImpl implements CustomerService {
         return saveAndReturnDTO(customer);
     }
 
-    private CustomerDTO saveAndReturnDTO(Customer customer) {
-
-        Customer savedCustomer = customerRepository.save(customer);
-        CustomerDTO returnDto = customerMapper.customerToCustomerDTO(savedCustomer);
-
-        return returnDto;
-    }
-
     @Override
     public CustomerDTO patchCustomer(Long id, CustomerDTO customerDTO) {
 
@@ -89,5 +82,13 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public void deleteCustomerById(Long id) {
         customerRepository.deleteById(id);
+    }
+
+    private CustomerDTO saveAndReturnDTO(Customer customer) {
+
+        Customer savedCustomer = customerRepository.save(customer);
+        CustomerDTO returnDto = customerMapper.customerToCustomerDTO(savedCustomer);
+
+        return returnDto;
     }
 }
