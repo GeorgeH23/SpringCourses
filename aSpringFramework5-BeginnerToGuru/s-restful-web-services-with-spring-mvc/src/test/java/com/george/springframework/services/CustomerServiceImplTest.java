@@ -11,6 +11,7 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -60,7 +61,7 @@ class CustomerServiceImplTest {
         customer.setLastName(LAST_NAME);
         customer.setCustomerUrl(URL);
 
-        when(customerRepository.findByLastName(anyString())).thenReturn(customer);
+        when(customerRepository.findByLastName(anyString())).thenReturn(Optional.of(customer));
 
         //when
         CustomerDTO customerDTO = customerService.getCustomerByName(LAST_NAME);

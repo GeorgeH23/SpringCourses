@@ -41,7 +41,9 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerDTO getCustomerByName(String name) {
 
-        return customerMapper.customerToCustomerDTO(customerRepository.findByLastName(name));
+        return customerRepository.findByLastName(name)
+                .map(customerMapper::customerToCustomerDTO)
+                .orElseThrow(ResourceNotFoundException::new);
     }
 
     @Override
