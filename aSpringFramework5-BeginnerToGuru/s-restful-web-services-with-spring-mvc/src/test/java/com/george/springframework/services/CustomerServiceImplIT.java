@@ -6,6 +6,7 @@ import com.george.springframework.bootstrap.Bootstrap;
 import com.george.springframework.domain.Customer;
 import com.george.springframework.repositories.CategoryRepository;
 import com.george.springframework.repositories.CustomerRepository;
+import com.george.springframework.repositories.VendorRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,9 @@ class CustomerServiceImplIT {
     
     @Autowired
     CategoryRepository categoryRepository;
+
+    @Autowired
+    VendorRepository vendorRepository;
     
     CustomerService customerService;
     
@@ -36,7 +40,7 @@ class CustomerServiceImplIT {
         System.out.println(customerRepository.findAll().size());
         
         //setup data for testing
-        Bootstrap bootstrap = new Bootstrap(categoryRepository, customerRepository);
+        Bootstrap bootstrap = new Bootstrap(categoryRepository, customerRepository, vendorRepository);
         bootstrap.run(); //load data
         
         customerService = new CustomerServiceImpl(CustomerMapper.INSTANCE, customerRepository);
