@@ -24,6 +24,7 @@ public class VendorServiceImpl implements VendorService {
 
     @Override
     public VendorDTO getVendorById(Long id) {
+
         return vendorRepository.findById(id)
                 .map(vendorMapper::vendorToVendorDTO)
                 .map(vendorDTO -> {
@@ -36,9 +37,12 @@ public class VendorServiceImpl implements VendorService {
     @Override
     public VendorDTO getVendorByName(String name) {
 
-        return vendorRepository.findByName(name)
-                .map(vendorMapper::vendorToVendorDTO)
-                .orElseThrow(ResourceNotFoundException::new);
+        Vendor vendor = vendorRepository.findByName(name).orElseThrow(ResourceNotFoundException::new);
+
+        VendorDTO vendorDTO = vendorMapper.vendorToVendorDTO(vendor);
+        vendorDTO.setVendorUrl(getVendorUrl(vendor.getId()));
+
+        return vendorDTO;
     }
 
     @Override
