@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface VendorRepository extends JpaRepository<Vendor, Long> {
 
-    Optional<Vendor> findVByName(String name);
+    Optional<Vendor> findByName(String name);
 }
