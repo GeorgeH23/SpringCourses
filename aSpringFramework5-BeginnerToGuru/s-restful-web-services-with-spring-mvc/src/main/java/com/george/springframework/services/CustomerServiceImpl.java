@@ -2,6 +2,7 @@ package com.george.springframework.services;
 
 import com.george.springframework.api.v1.mapper.CustomerMapper;
 import com.george.springframework.api.v1.model.CustomerDTO;
+import com.george.springframework.controllers.v1.CustomerController;
 import com.george.springframework.domain.Customer;
 import com.george.springframework.repositories.CustomerRepository;
 import org.springframework.stereotype.Service;
@@ -40,6 +41,11 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerDTO getCustomerByName(String name) {
 
+        Customer customer = customerRepository.findByLastName(name).orElseThrow(ResourceNotFoundException::new);
+
+        CustomerDTO customerDTO = customerMapper.customerToCustomerDTO(customer);
+        customerDTO.setCustomerUrl(getCustomerUrl(customer.getId()));
+
         return customerRepository.findByLastName(name)
                 .map(customerMapper::customerToCustomerDTO)
                 .orElseThrow(ResourceNotFoundException::new);
@@ -71,9 +77,6 @@ public class CustomerServiceImpl implements CustomerService {
             if (customerDTO.getLastName() != null) {
                 customer.setLastName(customerDTO.getLastName());
             }
-            if (customerDTO.getCustomerUrl() != null) {
-                customer.setCustomerUrl(customerDTO.getCustomerUrl());
-            }
 
             return customerMapper.customerToCustomerDTO(customerRepository.save(customer));
         }).orElseThrow(ResourceNotFoundException::new);
@@ -84,10 +87,16 @@ public class CustomerServiceImpl implements CustomerService {
         customerRepository.deleteById(id);
     }
 
-    private CustomerDTO saveAndReturnDTO(Customer customer) {
+    private String getCustomerUrl(Long id) {
+        return CustomerController.BASE_URL + "id/" + id;
+    }
 
+    private CustomerDTO saveAndReturnDTO(Customer customer) {
         Customer savedCustomer = customerRepository.save(customer);
+
         CustomerDTO returnDto = customerMapper.customerToCustomerDTO(savedCustomer);
+
+        returnDto.setCustomerUrl(getCustomerUrl(savedCustomer.getId()));
 
         return returnDto;
     }

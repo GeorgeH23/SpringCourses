@@ -30,12 +30,10 @@ class CustomerControllerTest {
     public static final Long ID_C1 = 2L;
     public static final String FIRST_NAME_C1 = "John";
     public static final String LAST_NAME_C1 = "Doe";
-    public static final String URL_C1 = "John_Doe.com";
 
     public static final Long ID_C2 = 3L;
     public static final String FIRST_NAME_C2 = "Jane";
     public static final String LAST_NAME_C2 = "Harper";
-    public static final String URL_C2 = "Jane_Harper.com";
 
     @Mock
     CustomerService customerService;
@@ -60,13 +58,11 @@ class CustomerControllerTest {
         customer1.setId(ID_C1);
         customer1.setFirstName(FIRST_NAME_C1);
         customer1.setLastName(LAST_NAME_C1);
-        customer1.setCustomerUrl(URL_C1);
 
         CustomerDTO customer2 = new CustomerDTO();
         customer2.setId(ID_C2);
         customer2.setFirstName(FIRST_NAME_C2);
         customer2.setLastName(LAST_NAME_C2);
-        customer2.setCustomerUrl(URL_C2);
 
         List<CustomerDTO> customers = Arrays.asList(customer1, customer2);
 
@@ -84,7 +80,6 @@ class CustomerControllerTest {
         customer1.setId(ID_C1);
         customer1.setFirstName(FIRST_NAME_C1);
         customer1.setLastName(LAST_NAME_C1);
-        customer1.setCustomerUrl(URL_C1);
 
         when(customerService.getCustomerByName(anyString())).thenReturn(customer1);
 
@@ -92,8 +87,7 @@ class CustomerControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.firstName", equalTo(FIRST_NAME_C1)))
-                .andExpect(jsonPath("$.lastName", equalTo(LAST_NAME_C1)))
-                .andExpect(jsonPath("$.customerUrl", equalTo(URL_C1)));
+                .andExpect(jsonPath("$.lastName", equalTo(LAST_NAME_C1)));
     }
 
     @Test
@@ -102,7 +96,6 @@ class CustomerControllerTest {
         customer1.setId(ID_C1);
         customer1.setFirstName(FIRST_NAME_C1);
         customer1.setLastName(LAST_NAME_C1);
-        customer1.setCustomerUrl(URL_C1);
 
         when(customerService.getCustomerById(anyLong())).thenReturn(customer1);
 
@@ -110,8 +103,7 @@ class CustomerControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.firstName", equalTo(FIRST_NAME_C1)))
-                .andExpect(jsonPath("$.lastName", equalTo(LAST_NAME_C1)))
-                .andExpect(jsonPath("$.customerUrl", equalTo(URL_C1)));
+                .andExpect(jsonPath("$.lastName", equalTo(LAST_NAME_C1)));
     }
 
     @Test
@@ -124,7 +116,6 @@ class CustomerControllerTest {
         CustomerDTO returnDTO = new CustomerDTO();
         returnDTO.setFirstName(customerDTO.getFirstName());
         returnDTO.setLastName(customerDTO.getLastName());
-        returnDTO.setCustomerUrl(CustomerController.BASE_URL + "id/1");
 
         when(customerService.createNewCustomer(customerDTO)).thenReturn(returnDTO);
 
@@ -139,8 +130,7 @@ class CustomerControllerTest {
                     .content(asJsonString(customerDTO)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.firstName", equalTo("Sherlock")))
-                .andExpect(jsonPath("$.lastName", equalTo("Holmes")))
-                .andExpect(jsonPath("$.customerUrl", equalTo(CustomerController.BASE_URL + "id/1")));
+                .andExpect(jsonPath("$.lastName", equalTo("Holmes")));
 
     }
 
@@ -154,7 +144,6 @@ class CustomerControllerTest {
         CustomerDTO returnDTO = new CustomerDTO();
         returnDTO.setFirstName(customer.getFirstName());
         returnDTO.setLastName(customer.getLastName());
-        returnDTO.setCustomerUrl(CustomerController.BASE_URL + "id/1");
 
         when(customerService.saveCustomerByDTO(anyLong(), any(CustomerDTO.class))).thenReturn(returnDTO);
 
@@ -164,8 +153,7 @@ class CustomerControllerTest {
                 .content(asJsonString(customer)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.firstName", equalTo("Fred")))
-                .andExpect(jsonPath("$.lastName", equalTo("Flintstone")))
-                .andExpect(jsonPath("$.customerUrl", equalTo(CustomerController.BASE_URL + "id/1")));
+                .andExpect(jsonPath("$.lastName", equalTo("Flintstone")));
     }
 
     @Test
@@ -177,7 +165,6 @@ class CustomerControllerTest {
         CustomerDTO returnDTO = new CustomerDTO();
         returnDTO.setFirstName(customer.getFirstName());
         returnDTO.setLastName("Holland");
-        returnDTO.setCustomerUrl(CustomerController.BASE_URL + "id/1");
 
         when(customerService.patchCustomer(anyLong(), any(CustomerDTO.class))).thenReturn(returnDTO);
 
@@ -187,8 +174,7 @@ class CustomerControllerTest {
                 .content(asJsonString(customer)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.firstName", equalTo("Tom")))
-                .andExpect(jsonPath("$.lastName", equalTo("Holland")))
-                .andExpect(jsonPath("$.customerUrl", equalTo(CustomerController.BASE_URL + "id/1")));
+                .andExpect(jsonPath("$.lastName", equalTo("Holland")));
     }
 
     @Test

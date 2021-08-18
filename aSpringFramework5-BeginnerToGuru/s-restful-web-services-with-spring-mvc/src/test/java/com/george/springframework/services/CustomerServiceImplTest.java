@@ -23,7 +23,6 @@ class CustomerServiceImplTest {
     public static final Long ID = 2L;
     public static final String FIRST_NAME = "John";
     public static final String LAST_NAME = "Doe";
-    public static final String URL = "John_Doe.com";
     CustomerService customerService;
 
     @Mock
@@ -59,7 +58,6 @@ class CustomerServiceImplTest {
         customer.setId(ID);
         customer.setFirstName(FIRST_NAME);
         customer.setLastName(LAST_NAME);
-        customer.setCustomerUrl(URL);
 
         when(customerRepository.findByLastName(anyString())).thenReturn(Optional.of(customer));
 
@@ -70,7 +68,6 @@ class CustomerServiceImplTest {
         assertEquals(ID, customerDTO.getId());
         assertEquals(FIRST_NAME, customerDTO.getFirstName());
         assertEquals(LAST_NAME, customerDTO.getLastName());
-        assertEquals(URL, customerDTO.getCustomerUrl());
 
     }
 
@@ -80,12 +77,10 @@ class CustomerServiceImplTest {
         CustomerDTO customerDTO = new CustomerDTO();
         customerDTO.setFirstName("Sherlock");
         customerDTO.setLastName("Holmes");
-        customerDTO.setCustomerUrl("/api/v1/customer/id/1");
 
         Customer savedCustomer = new Customer();
         savedCustomer.setFirstName(customerDTO.getFirstName());
         savedCustomer.setLastName(customerDTO.getLastName());
-        savedCustomer.setCustomerUrl(customerDTO.getCustomerUrl());
         savedCustomer.setId(1L);
 
         when(customerRepository.save(any(Customer.class))).thenReturn(savedCustomer);
@@ -96,7 +91,6 @@ class CustomerServiceImplTest {
         //then
         assertEquals(customerDTO.getFirstName(), savedCustomer.getFirstName());
         assertEquals(customerDTO.getLastName(), savedCustomer.getLastName());
-        assertEquals("/api/v1/customer/id/1", savedDto.getCustomerUrl());
     }
 
     @Test
@@ -109,7 +103,6 @@ class CustomerServiceImplTest {
         Customer savedCustomer = new Customer();
         savedCustomer.setFirstName(customerDTO.getFirstName());
         savedCustomer.setLastName(customerDTO.getLastName());
-        savedCustomer.setCustomerUrl("/api/v1/customer/id/1");
         savedCustomer.setId(1L);
 
         when(customerRepository.save(any(Customer.class))).thenReturn(savedCustomer);
@@ -120,7 +113,6 @@ class CustomerServiceImplTest {
         //then
         assertEquals(customerDTO.getFirstName(), savedDto.getFirstName());
         assertEquals(customerDTO.getLastName(), savedDto.getLastName());
-        assertEquals("/api/v1/customer/id/1", savedDto.getCustomerUrl());
     }
 
     @Test
