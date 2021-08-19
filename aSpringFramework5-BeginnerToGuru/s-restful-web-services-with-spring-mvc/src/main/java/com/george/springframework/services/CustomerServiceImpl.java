@@ -2,6 +2,7 @@ package com.george.springframework.services;
 
 import com.george.springframework.api.v1.mapper.CustomerMapper;
 import com.george.springframework.api.v1.model.CustomerDTO;
+import com.george.springframework.api.v1.model.CustomerListDTO;
 import com.george.springframework.controllers.v1.CustomerController;
 import com.george.springframework.domain.Customer;
 import com.george.springframework.repositories.CustomerRepository;
@@ -22,12 +23,19 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public List<CustomerDTO> getAllCustomers() {
+    public CustomerListDTO getAllCustomers() {
 
-        return customerRepository.findAll()
+        List<CustomerDTO> customerDTOS = customerRepository
+                .findAll()
                 .stream()
-                .map(customerMapper::customerToCustomerDTO)
+                .map(customer -> {
+                    CustomerDTO customerDTO = customerMapper.customerToCustomerDTO(customer);
+                    customerDTO.setCustomerUrl(getCustomerUrl(customer.getId()));
+                    return customerDTO;
+                })
                 .collect(Collectors.toList());
+
+        return new CustomerListDTO(customerDTOS);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.george.springframework.controllers.v1;
 
 import com.george.springframework.api.v1.model.CustomerDTO;
+import com.george.springframework.api.v1.model.CustomerListDTO;
 import com.george.springframework.services.CustomerService;
 import com.george.springframework.services.ResourceNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
@@ -64,9 +65,9 @@ class CustomerControllerTest {
         customer2.setFirstName(FIRST_NAME_C2);
         customer2.setLastName(LAST_NAME_C2);
 
-        List<CustomerDTO> customers = Arrays.asList(customer1, customer2);
+        CustomerListDTO customerListDTO = new CustomerListDTO(Arrays.asList(customer1, customer2));
 
-        when(customerService.getAllCustomers()).thenReturn(customers);
+        when(customerService.getAllCustomers()).thenReturn(customerListDTO);
 
         mockMvc.perform(get(CustomerController.BASE_URL)
                 .contentType(MediaType.APPLICATION_JSON))

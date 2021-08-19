@@ -2,6 +2,7 @@ package com.george.springframework.services;
 
 import com.george.springframework.api.v1.mapper.CustomerMapper;
 import com.george.springframework.api.v1.model.CustomerDTO;
+import com.george.springframework.api.v1.model.CustomerListDTO;
 import com.george.springframework.domain.Customer;
 import com.george.springframework.repositories.CustomerRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -44,10 +45,10 @@ class CustomerServiceImplTest {
         when(customerRepository.findAll()).thenReturn(customers);
 
         //when
-        List<CustomerDTO> customerDTOS = customerService.getAllCustomers();
+        CustomerListDTO customerDTOS = customerService.getAllCustomers();
 
         //then
-        assertEquals(3, customerDTOS.size());
+        assertEquals(3, customerDTOS.getCustomers().size());
     }
 
     @Test

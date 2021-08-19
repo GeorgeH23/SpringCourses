@@ -22,7 +22,7 @@ public class CustomerController {
     @ResponseStatus(HttpStatus.OK)
     public CustomerListDTO getAllCustomers() {
 
-        return new CustomerListDTO(customerService.getAllCustomers());
+        return customerService.getAllCustomers();
     }
 
     @GetMapping("/name/{name}")

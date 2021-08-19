@@ -1,12 +1,12 @@
 package com.george.springframework.services;
 
 import com.george.springframework.api.v1.model.CustomerDTO;
+import com.george.springframework.api.v1.model.CustomerListDTO;
 
-import java.util.List;
 
 public interface CustomerService {
 
-    List<CustomerDTO> getAllCustomers();
+    CustomerListDTO getAllCustomers();
 
     CustomerDTO getCustomerByName(String name);
 
