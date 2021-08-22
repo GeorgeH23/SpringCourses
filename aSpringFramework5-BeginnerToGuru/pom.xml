@@ -28,6 +28,7 @@
         <module>q-introduction-to-spring-framework-webflux</module>
         <module>r-introduction-to-restful-web-services</module>
         <module>s-restful-web-services-with-spring-mvc</module>
+        <module>t-using-swagger-with-spring-boot</module>
     </modules>
 
     <artifactId>aSpringFramework5-BeginnerToGuru</artifactId>
