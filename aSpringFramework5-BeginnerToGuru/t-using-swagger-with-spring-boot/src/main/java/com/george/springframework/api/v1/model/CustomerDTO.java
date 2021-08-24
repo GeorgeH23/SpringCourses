@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 public class CustomerDTO {
 
     private Long id;
+
     @ApiModelProperty(value = "This is the first name.", required = true)
     private String firstName;
 

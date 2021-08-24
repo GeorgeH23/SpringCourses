@@ -21,7 +21,7 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    @ApiOperation(value = "This will get a list of customers.", notes = "Those are some notes about the API.")
+    @ApiOperation(value = "Get a list of customers.", notes = "Those are some notes about the API.")
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public CustomerListDTO getAllCustomers() {
@@ -29,6 +29,7 @@ public class CustomerController {
         return customerService.getAllCustomers();
     }
 
+    @ApiOperation(value = "Get a customer by name.", notes = "Those are some notes about the API.")
     @GetMapping("/name/{name}")
     @ResponseStatus(HttpStatus.OK)
     public CustomerDTO getCustomerByName(@PathVariable String name) {
@@ -36,6 +37,7 @@ public class CustomerController {
         return customerService.getCustomerByName(name);
     }
 
+    @ApiOperation(value = "Get a customer by id.", notes = "Those are some notes about the API.")
     @GetMapping("/id/{id}")
     @ResponseStatus(HttpStatus.OK)
     public CustomerDTO getCustomerById(@PathVariable Long id) {
@@ -43,6 +45,7 @@ public class CustomerController {
         return customerService.getCustomerById(id);
     }
 
+    @ApiOperation(value = "Create a new customer.", notes = "Those are some notes about the API.")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public CustomerDTO createNewCustomer(@RequestBody CustomerDTO customerDTO) {
@@ -50,6 +53,7 @@ public class CustomerController {
         return customerService.createNewCustomer(customerDTO);
     }
 
+    @ApiOperation(value = "Update an existing customer.", notes = "Those are some notes about the API.")
     @PutMapping("/id/{id}")
     @ResponseStatus(HttpStatus.OK)
     public CustomerDTO updateCustomer(@PathVariable Long id, @RequestBody CustomerDTO customerDTO) {
@@ -57,6 +61,7 @@ public class CustomerController {
         return customerService.saveCustomerByDTO(id, customerDTO);
     }
 
+    @ApiOperation(value = "Update a customer property.", notes = "Those are some notes about the API.")
     @PatchMapping("/id/{id}")
     @ResponseStatus(HttpStatus.OK)
     public CustomerDTO patchCustomer(@PathVariable Long id, @RequestBody CustomerDTO customerDTO) {
@@ -64,6 +69,7 @@ public class CustomerController {
         return customerService.patchCustomer(id, customerDTO);
     }
 
+    @ApiOperation(value = "Delete a customer.", notes = "Those are some notes about the API.")
     @DeleteMapping("/id/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void deleteCustomer(@PathVariable Long id) {
