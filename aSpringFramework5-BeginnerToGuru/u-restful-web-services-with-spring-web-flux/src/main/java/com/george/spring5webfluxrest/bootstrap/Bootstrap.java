@@ -26,23 +26,37 @@ public class Bootstrap implements ApplicationListener<ContextRefreshedEvent> {
     @Override
     @Transactional
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
-        log.debug("in run...");
+
         if (categoryRepository.count().block() == 0) {
             //load data
             log.debug("### LOADING DATA ON BOOTSTRAP ###");
 
-            categoryRepository.save(Category.builder().description("Fruits").build());
-            categoryRepository.save(Category.builder().description("Nuts").build());
-            categoryRepository.save(Category.builder().description("Breads").build());
-            categoryRepository.save(Category.builder().description("Meats").build());
-            categoryRepository.save(Category.builder().description("Eggs").build());
-
-            log.debug("Loaded Categories: " + categoryRepository.count().block());
-
-            vendorRepository.save(Vendor.builder().firstName("George").lastName("Harpa").build());
-
-            log.debug("Loaded Vendors: " + vendorRepository.count().block());
+            loadCategories();
         }
 
+        if (vendorRepository.count().block() == 0) {
+            loadVendors();
+        }
+    }
+
+    private void loadCategories() {
+        categoryRepository.save(Category.builder().description("Fruits").build()).block();
+        categoryRepository.save(Category.builder().description("Nuts").build()).block();
+        categoryRepository.save(Category.builder().description("Breads").build()).block();
+        categoryRepository.save(Category.builder().description("Meats").build()).block();
+        categoryRepository.save(Category.builder().description("Eggs").build()).block();
+
+        log.debug("Loaded Categories: " + categoryRepository.count().block());
+    }
+
+    private void loadVendors() {
+        vendorRepository.save(Vendor.builder().firstName("George").lastName("Harpa").build()).block();
+        vendorRepository.save(Vendor.builder().firstName("Joe").lastName("Buck").build()).block();
+        vendorRepository.save(Vendor.builder().firstName("Micheal").lastName("Weston").build()).block();
+        vendorRepository.save(Vendor.builder().firstName("Jessie").lastName("Waters").build()).block();
+        vendorRepository.save(Vendor.builder().firstName("Bill").lastName("Nershi").build()).block();
+        vendorRepository.save(Vendor.builder().firstName("Jimmy").lastName("Buffett").build()).block();
+
+        log.debug("Loaded Vendors: " + vendorRepository.count().block());
     }
 }
