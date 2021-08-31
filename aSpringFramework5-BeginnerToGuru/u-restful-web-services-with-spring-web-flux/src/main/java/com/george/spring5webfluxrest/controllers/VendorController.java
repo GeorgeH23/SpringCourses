@@ -28,7 +28,7 @@ public class VendorController {
         return vendorRepository.findById(id);
     }
 
-    @GetMapping("/api/v1/vendorsgetBy/name/{name}")
+    @GetMapping("/api/v1/vendors/name/{name}")
     public Mono<Vendor> getByLastName(@PathVariable String name) {
         return vendorRepository.findByLastName(name);
     }

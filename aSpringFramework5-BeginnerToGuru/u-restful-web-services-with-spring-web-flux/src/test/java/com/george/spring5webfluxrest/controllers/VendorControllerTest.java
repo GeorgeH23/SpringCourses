@@ -10,6 +10,8 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 class VendorControllerTest {
 
     WebTestClient webTestClient;
@@ -45,7 +47,8 @@ class VendorControllerTest {
         webTestClient.get()
                 .uri("/api/v1/vendors/someid")
                 .exchange()
-                .expectBody(Vendor.class);
+                .expectStatus().isOk()
+                .expectBody().consumeWith(str -> assertTrue(str.toString().contains("Jimmy")));
     }
 
     @Test
@@ -56,7 +59,8 @@ class VendorControllerTest {
         webTestClient.get()
                 .uri("/api/v1/vendors/name/Weston")
                 .exchange()
-                .expectBody(Vendor.class);
+                .expectStatus().isOk()
+                .expectBody().consumeWith(str -> assertTrue(str.toString().contains("Weston")));
     }
 
 }
