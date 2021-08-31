@@ -1,5 +1,6 @@
 package com.george.spring5webfluxrest.controllers;
 
+import com.george.spring5webfluxrest.domain.Category;
 import com.george.spring5webfluxrest.domain.Vendor;
 import com.george.spring5webfluxrest.repositories.VendorRepository;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,5 +26,10 @@ public class VendorController {
     @GetMapping("/api/v1/vendors/{id}")
     public Mono<Vendor> getVendorById(@PathVariable String id) {
         return vendorRepository.findById(id);
+    }
+
+    @GetMapping("/api/v1/vendorsgetBy/name/{name}")
+    public Mono<Vendor> getByLastName(@PathVariable String name) {
+        return vendorRepository.findByLastName(name);
     }
 }
