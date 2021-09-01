@@ -30,7 +30,18 @@ public class CategoryController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/api/v1/categories")
     public Mono<Void> create(@RequestBody Publisher<Category> categoryStream) {
-
         return categoryRepository.saveAll(categoryStream).then();
+    }
+
+    @PutMapping("/api/v1/categories/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Mono<Category> updateCategory(@PathVariable String id, @RequestBody Category category) {
+        return categoryRepository
+                .findById(id)
+                .flatMap(foundCategory -> {
+                    category.setId(foundCategory.getId());
+                    return categoryRepository.save(category);
+                })
+                .switchIfEmpty(Mono.error(new Exception("Category not found")));
     }
 }
