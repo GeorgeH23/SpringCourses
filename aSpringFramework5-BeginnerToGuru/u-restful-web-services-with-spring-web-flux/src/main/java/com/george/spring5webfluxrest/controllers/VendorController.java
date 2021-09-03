@@ -37,4 +37,16 @@ public class VendorController {
     public Mono<Void> create(@RequestBody Publisher<Vendor> vendorStream) {
         return vendorRepository.saveAll(vendorStream).then();
     }
+
+    @PutMapping("/api/v1/vendors/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Mono<Vendor> updateVendor(@PathVariable String id, @RequestBody Vendor vendor) {
+        return vendorRepository
+                .findById(id)
+                .flatMap(foundVendor -> {
+                    vendor.setId(foundVendor.getId());
+                    return vendorRepository.save(vendor);
+                })
+                .switchIfEmpty(Mono.error(new Exception("Vendor not found")));
+    }
 }

@@ -13,6 +13,7 @@ import reactor.core.publisher.Mono;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 
 class VendorControllerTest {
 
@@ -80,4 +81,27 @@ class VendorControllerTest {
                 .isCreated();
     }
 
+    @Test
+    void testUpdateVendor() {
+        BDDMockito.given(vendorRepository.findById(anyString()))
+                .willReturn(Mono.just(Vendor.builder().build()));
+
+        BDDMockito.given(vendorRepository.save(any(Vendor.class)))
+                .willReturn(Mono.just(Vendor.builder().build()));
+
+        Mono<Vendor> vendorToUpdateMono = Mono.just(Vendor.builder().firstName("Johnny").lastName("Bravo").build());
+
+        webTestClient.put()
+                .uri("/api/v1/vendors/123456")
+                .body(vendorToUpdateMono, Vendor.class)
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectBody()
+                .consumeWith(body -> {
+                    System.out.println(body.toString());
+                    assertTrue(body.toString().contains("lastName"));
+                    assertTrue(body.toString().contains("firstName"));
+                });
+    }
 }
