@@ -49,4 +49,23 @@ public class VendorController {
                 })
                 .switchIfEmpty(Mono.error(new Exception("Vendor not found")));
     }
+
+    @PatchMapping("/api/v1/vendors/{id}")
+    public Mono<Vendor> patch(@PathVariable String id, @RequestBody Vendor vendor) {
+
+        Mono<Vendor> foundVendor = vendorRepository.findById(id);
+
+        return foundVendor
+                .map(vend -> {
+                    if (!vend.getFirstName().equals(vendor.getFirstName())) {
+                        vend.setFirstName(vendor.getFirstName());
+                    }
+                    if (!vend.getLastName().equals(vendor.getLastName())) {
+                        vend.setLastName(vendor.getLastName());
+                    }
+                    return vend;
+                })
+                .flatMap(vendorRepository::save).switchIfEmpty(foundVendor);
+
+    }
 }
