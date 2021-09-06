@@ -56,16 +56,25 @@ public class VendorController {
         Mono<Vendor> foundVendor = vendorRepository.findById(id);
 
         return foundVendor
-                .map(vend -> {
-                    if (!vend.getFirstName().equals(vendor.getFirstName())) {
+                .flatMap(vend -> {
+                    boolean changed = false;
+
+                    if (vend.getFirstName() != null && !vend.getFirstName().equals(vendor.getFirstName())) {
                         vend.setFirstName(vendor.getFirstName());
+                        changed = true;
                     }
-                    if (!vend.getLastName().equals(vendor.getLastName())) {
+                    if (vend.getLastName() != null && !vend.getLastName().equals(vendor.getLastName())) {
                         vend.setLastName(vendor.getLastName());
+                        changed = true;
                     }
-                    return vend;
+
+                     if (changed) {
+                         return vendorRepository.save(vend);
+                     } else {
+                         return Mono.just(vend);
+                     }
                 })
-                .flatMap(vendorRepository::save).switchIfEmpty(foundVendor);
+                .switchIfEmpty(foundVendor);
 
     }
 }
