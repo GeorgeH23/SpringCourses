@@ -27,11 +27,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 class CustomerControllerTest {
 
-    public static final Long ID_C1 = 2L;
     public static final String FIRST_NAME_C1 = "John";
     public static final String LAST_NAME_C1 = "Doe";
 
-    public static final Long ID_C2 = 3L;
     public static final String FIRST_NAME_C2 = "Jane";
     public static final String LAST_NAME_C2 = "Harper";
 
@@ -55,12 +53,10 @@ class CustomerControllerTest {
     @Test
     void testGetAllCustomers() throws Exception {
         CustomerDTO customer1 = new CustomerDTO();
-        customer1.setId(ID_C1);
         customer1.setFirstName(FIRST_NAME_C1);
         customer1.setLastName(LAST_NAME_C1);
 
         CustomerDTO customer2 = new CustomerDTO();
-        customer2.setId(ID_C2);
         customer2.setFirstName(FIRST_NAME_C2);
         customer2.setLastName(LAST_NAME_C2);
 
@@ -78,7 +74,6 @@ class CustomerControllerTest {
     @Test
     void testGetCustomerByName() throws Exception {
         CustomerDTO customer1 = new CustomerDTO();
-        customer1.setId(ID_C1);
         customer1.setFirstName(FIRST_NAME_C1);
         customer1.setLastName(LAST_NAME_C1);
 
@@ -95,7 +90,6 @@ class CustomerControllerTest {
     @Test
     void testGetCustomerById() throws Exception {
         CustomerDTO customer1 = new CustomerDTO();
-        customer1.setId(ID_C1);
         customer1.setFirstName(FIRST_NAME_C1);
         customer1.setLastName(LAST_NAME_C1);
 

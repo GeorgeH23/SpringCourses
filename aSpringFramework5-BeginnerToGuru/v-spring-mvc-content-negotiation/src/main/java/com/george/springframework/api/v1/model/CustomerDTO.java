@@ -11,8 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CustomerDTO {
 
-    private Long id;
-
     @ApiModelProperty(value = "This is the first name.", required = true)
     private String firstName;
 
