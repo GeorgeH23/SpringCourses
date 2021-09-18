@@ -7,7 +7,7 @@
     <artifactId>v-spring-mvc-content-negotiation</artifactId>
 
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
 
     <name>v-spring-mvc-content-negotiation</name>
     <description>REST application</description>
@@ -18,6 +18,11 @@
         <version>2.4.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
+
+    <modules>
+        <module>rest-model</module>
+        <module>spring5-mvc-rest-app</module>
+    </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
