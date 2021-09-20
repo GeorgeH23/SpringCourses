@@ -1,7 +1,7 @@
 package com.george.springframework.controllers.v1;
 
-import com.george.springframework.api.v1.model.CustomerDTO;
-import com.george.springframework.api.v1.model.CustomerListDTO;
+import com.george.springframework.model.CustomerDTO;
+import com.george.springframework.model.CustomerListDTO;
 import com.george.springframework.services.CustomerService;
 import com.george.springframework.services.ResourceNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
@@ -60,9 +60,10 @@ class CustomerControllerTest {
         customer2.setFirstName(FIRST_NAME_C2);
         customer2.setLastName(LAST_NAME_C2);
 
-        CustomerListDTO customerListDTO = new CustomerListDTO(Arrays.asList(customer1, customer2));
+        CustomerListDTO customerListDTO = new CustomerListDTO();
+        customerListDTO.getCustomers().addAll(Arrays.asList(customer1, customer2));
 
-        when(customerService.getAllCustomers()).thenReturn(customerListDTO);
+        when(customerService.getAllCustomers()).thenReturn(customerListDTO.getCustomers());
 
         mockMvc.perform(get(CustomerController.BASE_URL)
                 .accept(MediaType.APPLICATION_JSON)
@@ -118,7 +119,7 @@ class CustomerControllerTest {
 
         // This can be used for debug purposes
         /*String response = mockMvc.perform(post(CustomerController.BASE_URL)
-                .contentType(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_XML)
                 .content(asJsonString(customerDTO)))
                 .andReturn().getResponse().getContentAsString();*/
 
@@ -126,9 +127,7 @@ class CustomerControllerTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(customerDTO)))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.firstName", equalTo("Sherlock")))
-                .andExpect(jsonPath("$.lastName", equalTo("Holmes")));
+                .andExpect(status().isCreated());
 
     }
 

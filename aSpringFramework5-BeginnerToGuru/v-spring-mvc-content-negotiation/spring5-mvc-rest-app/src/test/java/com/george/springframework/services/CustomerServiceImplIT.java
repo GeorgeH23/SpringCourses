@@ -1,9 +1,9 @@
 package com.george.springframework.services;
 
 import com.george.springframework.api.v1.mapper.CustomerMapper;
-import com.george.springframework.api.v1.model.CustomerDTO;
 import com.george.springframework.bootstrap.Bootstrap;
 import com.george.springframework.domain.Customer;
+import com.george.springframework.model.CustomerDTO;
 import com.george.springframework.repositories.CategoryRepository;
 import com.george.springframework.repositories.CustomerRepository;
 import com.george.springframework.repositories.VendorRepository;

@@ -1,7 +1,7 @@
 package com.george.springframework.api.v1.mapper;
 
-import com.george.springframework.api.v1.model.CustomerDTO;
 import com.george.springframework.domain.Customer;
+import com.george.springframework.model.CustomerDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

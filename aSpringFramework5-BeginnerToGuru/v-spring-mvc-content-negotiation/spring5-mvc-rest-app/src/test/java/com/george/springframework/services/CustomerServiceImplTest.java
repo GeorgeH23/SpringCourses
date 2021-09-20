@@ -1,9 +1,9 @@
 package com.george.springframework.services;
 
 import com.george.springframework.api.v1.mapper.CustomerMapper;
-import com.george.springframework.api.v1.model.CustomerDTO;
-import com.george.springframework.api.v1.model.CustomerListDTO;
 import com.george.springframework.domain.Customer;
+import com.george.springframework.model.CustomerDTO;
+import com.george.springframework.model.CustomerListDTO;
 import com.george.springframework.repositories.CustomerRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
@@ -45,10 +45,10 @@ class CustomerServiceImplTest {
         when(customerRepository.findAll()).thenReturn(customers);
 
         //when
-        CustomerListDTO customerDTOS = customerService.getAllCustomers();
+        List<CustomerDTO> customerDTOS = customerService.getAllCustomers();
 
         //then
-        assertEquals(3, customerDTOS.getCustomers().size());
+        assertEquals(3, customerDTOS.size());
     }
 
     @Test

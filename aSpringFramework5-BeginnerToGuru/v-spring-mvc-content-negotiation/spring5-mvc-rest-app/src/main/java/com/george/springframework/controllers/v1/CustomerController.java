@@ -1,12 +1,14 @@
 package com.george.springframework.controllers.v1;
 
-import com.george.springframework.api.v1.model.CustomerDTO;
-import com.george.springframework.api.v1.model.CustomerListDTO;
+import com.george.springframework.model.CustomerDTO;
+import com.george.springframework.model.CustomerListDTO;
 import com.george.springframework.services.CustomerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Api(description = "This is my Customer Controller")
 @RestController
@@ -26,7 +28,9 @@ public class CustomerController {
     @ResponseStatus(HttpStatus.OK)
     public CustomerListDTO getAllCustomers() {
 
-        return customerService.getAllCustomers();
+        CustomerListDTO customerListDTO = new CustomerListDTO();
+        customerListDTO.getCustomers().addAll(customerService.getAllCustomers());
+        return customerListDTO;
     }
 
     @ApiOperation(value = "Get a customer by name.", notes = "Those are some notes about the API.")
