@@ -31,6 +31,7 @@
         <module>t-using-swagger-with-spring-boot</module>
         <module>u-restful-web-services-with-spring-web-flux</module>
         <module>v-spring-mvc-content-negotiation</module>
+        <module>w-spring-mvc-rest-docs</module>
     </modules>
 
     <artifactId>aSpringFramework5-BeginnerToGuru</artifactId>
