@@ -46,7 +46,7 @@ class TestRestTemplateExamples {
         System.out.println(jsonNode.toString());
     }
 
-    @Test
+    /*@Test
     void createCustomer() {
         String apiUrl = API_ROOT + "/customers/";
 
@@ -62,9 +62,9 @@ class TestRestTemplateExamples {
 
         System.out.println("Response");
         System.out.println(jsonNode.toString());
-    }
+    }*/
 
-    @Test
+    /*@Test
     void updateCustomer() {
 
         //create customer to update
@@ -98,9 +98,9 @@ class TestRestTemplateExamples {
 
         System.out.println(updatedNode.toString());
 
-    }
+    }*/
 
-    @Test
+    /*@Test
     void updateCustomerUsingPatchSunHttp() {
 
         //create customer to update
@@ -143,9 +143,9 @@ class TestRestTemplateExamples {
         String actualMessage = exception.getMessage();
 
         assertTrue(actualMessage.contains(expectedMessage));
-    }
+    }*/
 
-    @Test
+    /*@Test
     void updateCustomerUsingPatch() {
 
         //create customer to update
@@ -186,9 +186,9 @@ class TestRestTemplateExamples {
         JsonNode updatedNode = restTemplate.patchForObject(apiUrl + id, entity, JsonNode.class);
 
         System.out.println(updatedNode.toString());
-    }
+    }*/
 
-    @Test
+    /*@Test
     void deleteCustomer() {
 
         //create customer to update
@@ -225,5 +225,5 @@ class TestRestTemplateExamples {
         String actualMessage = exception.getMessage();
 
         assertTrue(actualMessage.contains(expectedMessage));
-    }
+    }*/
 }
