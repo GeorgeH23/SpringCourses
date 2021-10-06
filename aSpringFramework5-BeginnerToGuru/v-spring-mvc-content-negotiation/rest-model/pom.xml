@@ -17,7 +17,6 @@
     </parent>
 
     <properties>
-
         <jaxb2-maven.version>2.5.0</jaxb2-maven.version>
     </properties>
 
