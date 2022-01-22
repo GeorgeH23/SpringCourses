@@ -32,6 +32,7 @@
         <module>u-restful-web-services-with-spring-web-flux</module>
         <module>v-spring-mvc-content-negotiation</module>
         <module>w-spring-mvc-rest-docs</module>
+        <module>x-jms-messaging</module>
     </modules>
 
     <artifactId>aSpringFramework5-BeginnerToGuru</artifactId>
